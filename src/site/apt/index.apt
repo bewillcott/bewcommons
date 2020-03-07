@@ -1,0 +1,8 @@
+
+Project Development Information
+
+  The information in this site is related to the development of the BEW Commons Library.
+  
+  This library contains various utility classes used across multiple projects.  The classes
+  are designed to add functionality and enhancements beyond that which is provided by the 
+  Java SDK 13.0.1.

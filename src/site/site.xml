@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="${artifactId}" xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
+
+    <body>
+        <links>
+            <item name="Maven" href="https://maven.apache.org/"/>
+        </links>
+
+        <menu name="Documentation">
+            <item name="API Docs" href="apidocs/index.html" target="_blank">
+                <description>
+                    The API documentation for this project.
+                </description>
+            </item>
+            <item name="JaCoCo report" href="jacoco-ut/index.html" target="_blank">
+                <description>
+                    Java Code Coverage report.
+                </description>
+            </item>
+            <item name="Source Code Reference" href="xref/index.html" target="_blank">
+                <description>
+                    Maven JXR report - BEW Commons Library Reference
+                </description>
+            </item>
+            <item name="Markdown" href="markdown.html">
+                <description>
+                    Markdown Format works
+                </description>
+            </item>
+        </menu>
+
+        <menu ref="reports" />
+    </body>
+</project>
