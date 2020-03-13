@@ -59,7 +59,7 @@ public class Regexp {
 
             StringBuilder sb;
 
-            try (BufferedReader in = new BufferedReader(new FileReader(filepath))) {
+            try ( BufferedReader in = new BufferedReader(new FileReader(filepath))) {
                 sb = new StringBuilder();
                 String line;
 
@@ -192,65 +192,66 @@ public class Regexp {
          */
         HexColourValue("^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$", 0),
         /**
-         * Has Named Groups:<br>
-         * <br>
          * <table>
+         * <caption>
+         * Named Groups
+         * </caption>
          * <thead>
          * <tr>
-         * <th align="right">Group Name</th>
+         * <th>Group Name</th>
          * <th></th>
          * <th>Description</th>
-         * <th align="center">Empty Value</th>
+         * <th>Empty Value</th>
          * </tr>
          * </thead>
          * <tbody>
          * <tr>
-         * <td align="right">endTag</td>
+         * <td>endTag</td>
          * <td>:</td>
          * <td>Captures the '/' if this is an end tag</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * <tr>
-         * <td align="right">tagName</td>
+         * <td>tagName</td>
          * <td>:</td>
          * <td>Captures TagName</td>
-         * <td align="center">Required - never empty</td>
+         * <td >Required - never empty</td>
          * </tr>
          * <tr>
-         * <td align="right">atts</td>
+         * <td>atts</td>
          * <td>:</td>
          * <td>Group attributes</td>
-         * <td align="center">"" - Empty String</td>
+         * <td>"" - Empty String</td>
          * </tr>
          * <tr>
-         * <td align="right">att</td>
+         * <td>att</td>
          * <td>:</td>
          * <td>A single attribute</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * <tr>
-         * <td align="right">attName</td>
+         * <td>attName</td>
          * <td>:</td>
          * <td>Attribute name</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * <tr>
-         * <td align="right">attVal1</td>
+         * <td>attVal1</td>
          * <td>:</td>
          * <td>"Double quoted" value string *</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * <tr>
-         * <td align="right">attVal2</td>
+         * <td>attVal2</td>
          * <td>:</td>
          * <td>'Single quoted' value string *</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * <tr>
-         * <td align="right">completeTag</td>
+         * <td>completeTag</td>
          * <td>:</td>
          * <td>Captures the '/' if this is a complete tag</td>
-         * <td align="center">null</td>
+         * <td>null</td>
          * </tr>
          * </tbody>
          * </table>

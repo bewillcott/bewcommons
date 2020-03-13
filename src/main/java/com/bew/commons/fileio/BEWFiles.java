@@ -18,10 +18,12 @@
  */
 package com.bew.commons.fileio;
 
-import com.bew.commons.fileio.Files;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,14 +32,31 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.Files.getLastModifiedTime;
 import static java.nio.file.Files.notExists;
 import static java.nio.file.Path.of;
-import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  *
  * @author Bradley Willcott
  */
-public class Files {
+public class BEWFiles {
+
+    public static Path getResource(Class clazz, String name) throws URISyntaxException, IOException {
+        URI uri = clazz.getResource(name).toURI();
+
+        if ("jar".equals(uri.getScheme())) {
+            for (FileSystemProvider provider : FileSystemProvider.installedProviders()) {
+                if (provider.getScheme().equalsIgnoreCase("jar")) {
+                    try {
+                        provider.getFileSystem(uri);
+                    } catch (FileSystemNotFoundException e) {
+                        // in this case we need to initialize it first:
+                        provider.newFileSystem(uri, Collections.emptyMap());
+                    }
+                }
+            }
+        }
+
+        return Paths.get(uri);
+    }
 
     public static void copyDirTree(String sourceDir, String destDir, String pattern, int vlevel, CopyOption... options) throws IOException {
         Path srcPath = (sourceDir != null ? of(sourceDir) : of(""));
@@ -123,12 +142,10 @@ public class Files {
     }
 
     public static void main(String[] args) throws IOException {
-
-        Files.copyDirTree("src", "target/src", "*.{html,css}", 2, COPY_ATTRIBUTES, REPLACE_EXISTING);
-
+//        BEWFiles.copyDirTree("src", "target/src", "*.{html,css}", 2, COPY_ATTRIBUTES, REPLACE_EXISTING);
     }
 
-    private Files() {
+    private BEWFiles() {
     }
 
     public static class Finder

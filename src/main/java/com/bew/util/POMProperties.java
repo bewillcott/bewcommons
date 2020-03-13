@@ -23,8 +23,6 @@ import java.util.Properties;
  * Provides access to some of the projects pom.properties.
  * <p>
  * To setup in a new project:
- * <p>
- * <p>
  * </p><p>
  * To access the properties:
  * </p>

@@ -39,9 +39,6 @@ public interface PackageInterface {
      *
      * @return the vendor that implemented this package, {@code null}
      *         is returned if it is not known.
-     *
-     * @revised 9
-     * @spec JPMS
      */
     String getImplementationVendor();
 
@@ -83,33 +80,39 @@ public interface PackageInterface {
     String getSpecificationVendor();
 
     /**
+     * <p>
      * Returns the version number of the specification
      * that this package implements.
+     * </p>
+     * <p>
      * This version string must be a sequence of non-negative decimal
      * integers separated by "."'s and may have leading zeros.
      * When version strings are compared the most significant
      * numbers are compared.
-     * <p>
-     * <p>
+     * </p>
      * <p>
      * Specification version numbers use a syntax that consists of non-negative
      * decimal integers separated by periods ".", for example "2.0" or
      * "1.2.3.4.5.6.7". This allows an extensible number to be used to represent
      * major, minor, micro, etc. versions. The version specification is described
      * by the following formal grammar:
+     * </p>
      * <blockquote>
      * <dl>
      * <dt><i>SpecificationVersion:</i>
      * <dd><i>Digits RefinedVersion<sub>opt</sub></i>
      * <p>
+     * </p>
      * <dt><i>RefinedVersion:</i>
-     * <dd>{@code .} <i>Digits</i>
-     * <dd>{@code .} <i>Digits RefinedVersion</i>
+     * <dd>{@code .}<i>Digits</i>
+     * <dd>{@code .}<i>Digits RefinedVersion</i>
      * <p>
+     * </p>
      * <dt><i>Digits:</i>
      * <dd><i>Digit</i>
      * <dd><i>Digits</i>
      * <p>
+     * </p>
      * <dt><i>Digit:</i>
      * <dd>any character for which {@link Character#isDigit} returns {@code true},
      * e.g. 0, 1, 2, ...
@@ -129,20 +132,24 @@ public interface PackageInterface {
     int hashCode();
 
     /**
+     * <p>
      * Compare this package's specification version with a
      * desired version. It returns true if
      * this packages specification version number is greater than or equal
      * to the desired version number.
-     * <p>
+     * </p>
      * <p>
      * Version numbers are compared by sequentially comparing corresponding
      * components of the desired and specification strings.
      * Each component is converted as a decimal integer and the values
      * compared.
+     * </p>
+     * <p>
      * If the specification value is greater than the desired
      * value true is returned. If the value is less false is returned.
      * If the values are equal the period is skipped and the next pair of
      * components is compared.
+     * </p>
      *
      * @param desired the version string of the desired version.
      *
@@ -172,10 +179,14 @@ public interface PackageInterface {
     boolean isSealed(URL url);
 
     /**
+     * <p>
      * Returns the string representation of this Package.
+     * </p>
+     * <p>
      * Its value is the string "package " and the package name.
      * If the package title is defined it is appended.
      * If the package version is defined it is appended.
+     * </p>
      *
      * @return the string representation of the package.
      */

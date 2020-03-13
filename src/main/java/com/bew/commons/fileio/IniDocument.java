@@ -31,9 +31,8 @@ import java.util.regex.Pattern;
  * file.
  * <p>
  * It is compliant with the following structures:
- * <p>
- * <
- * pre><code>
+ * </p>
+ * <pre><code>
  *
  * key=value
  *
@@ -43,6 +42,7 @@ import java.util.regex.Pattern;
  * <p>
  * For more specific file format compatibility information see:
  * {@link IniFile}.
+ * </p>
  *
  * @author Bradley Willcott
  * @since 1.0
