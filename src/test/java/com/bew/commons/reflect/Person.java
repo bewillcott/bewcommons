@@ -16,17 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package com.bew.commons.reflect;
 
-module BEWCommons {
-//    requires java.logging;
-    requires java.desktop;
-    requires transitive java.sql;
+/**
+ * Person class description.
+ *
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ */
+public class Person {
 
-    exports com.bew.commons;
-    exports com.bew.commons.fileio;
-    exports com.bew.commons.reflect;
-    exports com.bew.commons.regexp;
-    exports com.bew.commons.sqlite;
-    exports com.bew.util;
-    exports com.centerkey.utils;
+    private String name;
+
+    private Person() {
+        name = "not set";
+    }
+
+    private Person(String name) {
+        this.name = name;
+    }
+
+    private String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public String toString() {
+        return "Person { name = " + name + " }";
+    }
+
 }

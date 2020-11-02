@@ -40,9 +40,11 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
      * @since 1.8
      */
     public static Date from(Instant instant) {
-        try {
+        try
+        {
             return new Date(instant.toEpochMilli());
-        } catch (ArithmeticException ex) {
+        } catch (ArithmeticException ex)
+        {
             throw new IllegalArgumentException(ex);
         }
     }
@@ -118,14 +120,17 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
     public Object clone() {
         ImmutableDate id = null;
 
-        try {
+        try
+        {
             id = (ImmutableDate) super.clone();
 
-            if (date != null) {
+            if (date != null)
+            {
                 id.date = (Date) date.clone();
             }
 
-        } catch (CloneNotSupportedException ex) {
+        } catch (CloneNotSupportedException ex)
+        {
             // Never happen
         }
         return id;
@@ -158,12 +163,15 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Date) {
+        if (obj instanceof Date)
+        {
             return date.getTime() == ((Date) obj).getTime();
-        } else if (obj instanceof ImmutableDate) {
+        } else if (obj instanceof ImmutableDate)
+        {
             return date.getTime() == ((ImmutableDate) obj).date.getTime();
 
-        } else {
+        } else
+        {
             return false;
         }
     }
@@ -232,6 +240,7 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
      * @see java.util.Date#toLocaleString()
      * @see java.util.Date#toGMTString()
      */
+    @Override
     public String toString() {
         return date.toString();
     }

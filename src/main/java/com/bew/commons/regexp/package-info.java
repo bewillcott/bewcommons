@@ -16,17 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-module BEWCommons {
-//    requires java.logging;
-    requires java.desktop;
-    requires transitive java.sql;
-
-    exports com.bew.commons;
-    exports com.bew.commons.fileio;
-    exports com.bew.commons.reflect;
-    exports com.bew.commons.regexp;
-    exports com.bew.commons.sqlite;
-    exports com.bew.util;
-    exports com.centerkey.utils;
-}
+package com.bew.commons.regexp;
