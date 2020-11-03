@@ -84,7 +84,7 @@ public class BEWFiles {
     public static void copyDirTree(Path srcPath, Path destPath, String pattern, int verboseLvl, CopyOption... options) throws IOException {
         // Can't be copying source onto itself.
         // No point.
-        if (srcPath.equals(destPath))
+        if (Objects.requireNonNull(srcPath).equals(Objects.requireNonNull(destPath)))
         {
             return;
         }
@@ -92,6 +92,7 @@ public class BEWFiles {
         // Initialise and prepare finder...
         Finder finder = new Finder(pattern != null ? pattern : "*", verboseLvl);
 
+        // This is to let 'finder' collect relevant information.
         walkFileTree(srcPath, finder);
 
         // Process list of files/directories found...
@@ -105,7 +106,7 @@ public class BEWFiles {
         {
             Matcher m;
 
-            if (srcPath.toString().isEmpty() || destPath.toString().isEmpty())
+            if (srcPath.toString().isEmpty())
             {
                 m = p1.matcher(inPath.toString());
             } else
@@ -240,7 +241,7 @@ public class BEWFiles {
 
         Finder(String pattern, int vlevel) {
             matcher = FileSystems.getDefault()
-                    .getPathMatcher("glob:" + pattern);
+                    .getPathMatcher("glob:" + Objects.requireNonNull(pattern));
             this.vlevel = vlevel;
         }
 
@@ -250,7 +251,7 @@ public class BEWFiles {
          * @param file File to check.
          */
         void find(Path file) {
-            Path name = file.getFileName();
+            Path name = Objects.requireNonNull(file).getFileName();
 
             if (name != null && matcher.matches(name))
             {

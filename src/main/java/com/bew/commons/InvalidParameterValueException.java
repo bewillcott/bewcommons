@@ -21,27 +21,32 @@ package com.bew.commons;
 /**
  * Thrown to indicate that a method has been passed a parameter with an invalid
  * or inappropriate value.
+ * <p>
+ * <b>Changed:</b><br>
+ * Version 1.1:<br>
+ * Now extends {@code RuntimeException}, instead of {@code Exception}.
  *
- * @author Brad Willcott
+ * @author Brad Willcott &lt;bw.opensource@yahoo.com&gt;
  * @since 1.0
- * @version 1.0
+ * @version 1.0.6
  */
-public class InvalidParameterValueException extends Exception {
+public class InvalidParameterValueException extends RuntimeException {
 
     private static final long serialVersionUID = 947167888439966970L;
 
     /**
-     * Constructs an InvalidParameterValueException with no detail message.
+     * Constructs an instance of <code>InvalidParameterValueException</code>
+     * without a detail message.
      */
     public InvalidParameterValueException() {
         super();
     }
 
     /**
-     * Constructs an InvalidParameterValueException with the specified detail
-     * message.
+     * Constructs an instance of <code>InvalidParameterValueException</code>
+     * with the specified detail message.
      *
-     * @param message the detail message.
+     * @param message The detail message.
      */
     public InvalidParameterValueException(String message) {
         super(message);
@@ -54,7 +59,7 @@ public class InvalidParameterValueException extends Exception {
      * exceptions that are little more than wrappers for other throwables (for
      * example, PrivilegedActionException).
      *
-     * @param cause the cause (which is saved for later retrieval by the
+     * @param cause The cause (which is saved for later retrieval by the
      *              Throwable.getCause() method). (A null value is permitted,
      *              and indicates that the cause is nonexistent or unknown.)
      */
@@ -64,13 +69,13 @@ public class InvalidParameterValueException extends Exception {
 
     /**
      * Constructs a new exception with the specified detail message and cause.
-     *
+     * <p>
      * Note that the detail message associated with cause is not automatically
      * incorporated in this exception's detail message.
      *
-     * @param message the detail message (which is saved for later retrieval by
+     * @param message The detail message (which is saved for later retrieval by
      *                the Throwable.getMessage() method).
-     * @param cause   the cause (which is saved for later retrieval by the
+     * @param cause   The cause (which is saved for later retrieval by the
      *                Throwable.getCause() method). (A null value is permitted,
      *                and indicates that the cause is nonexistent or unknown.)
      */

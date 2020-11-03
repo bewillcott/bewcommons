@@ -24,23 +24,25 @@ package com.bew.commons;
  *
  * @author Brad Willcott
  * @since 1.0
+ * @version 1.0.6
  */
 public class InvalidProgramStateException extends Exception {
 
     private static final long serialVersionUID = 5899909813938071202L;
 
     /**
-     * Constructs an InvalidParameterValueException with no detail message.
+     * Constructs an instance of <code>InvalidProgramStateException</code>
+     * without a detail message.
      */
     public InvalidProgramStateException() {
         super();
     }
 
     /**
-     * Constructs an InvalidParameterValueException with the specified detail
-     * message.
+     * Constructs an instance of <code>InvalidProgramStateException</code>
+     * with the specified detail message.
      *
-     * @param message the detail message.
+     * @param message The detail message.
      */
     public InvalidProgramStateException(String message) {
         super(message);
@@ -53,7 +55,7 @@ public class InvalidProgramStateException extends Exception {
      * exceptions that are little more than wrappers for other throwables (for
      * example, PrivilegedActionException).
      *
-     * @param cause the cause (which is saved for later retrieval by the
+     * @param cause The cause (which is saved for later retrieval by the
      *              Throwable.getCause() method). (A null value is permitted,
      *              and indicates that the cause is nonexistent or unknown.)
      */
@@ -63,13 +65,13 @@ public class InvalidProgramStateException extends Exception {
 
     /**
      * Constructs a new exception with the specified detail message and cause.
-     *
+     * <p>
      * Note that the detail message associated with cause is not automatically
      * incorporated in this exception's detail message.
      *
-     * @param message the detail message (which is saved for later retrieval by
+     * @param message The detail message (which is saved for later retrieval by
      *                the Throwable.getMessage() method).
-     * @param cause   the cause (which is saved for later retrieval by the
+     * @param cause   The cause (which is saved for later retrieval by the
      *                Throwable.getCause() method). (A null value is permitted,
      *                and indicates that the cause is nonexistent or unknown.)
      */

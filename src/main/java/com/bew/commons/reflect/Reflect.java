@@ -18,8 +18,11 @@
  */
 package com.bew.commons.reflect;
 
+import com.bew.commons.string.BlankStringException;
 import java.lang.reflect.*;
-import java.util.Objects;
+
+import static com.bew.commons.string.Strings.requireNonBlank;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Reflect class description:
@@ -35,6 +38,8 @@ import java.util.Objects;
  * </p>
  *
  * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @since 1.0.5
+ * @version 1.0.6
  */
 public final class Reflect {
 
@@ -42,7 +47,7 @@ public final class Reflect {
      * Get access to a private attribute/field of a class instance.
      * <p>
      * Example:<br>
-     * The follow classes are in separate files: {@code Person.java} and {@code Main.java}.<br>
+     * The follow classes would be in separate files: {@code Person.java} and {@code Main.java}.<br>
      * <br><hr>
      * <pre><code>
      * public class Person {
@@ -75,25 +80,32 @@ public final class Reflect {
      * @param instance The instantiated Class object.
      * @param name     The name of the class attribute to get.
      *
-     * @return The Field object representing the required attribute, or <i>null</i> if error.
+     * @return The Field object representing the required class attribute,
+     *         or <i>null</i> if not found.
+     *
+     * @throws BlankStringException         if {@code name} is <i>blank</i>.
+     * @throws NullPointerException         if either {@code instance} or {@code name} are <i>null</i>.
+     * @throws ReflectiveOperationException if a reflective operation failed.
      */
-    public static Field getPrivateAttribute(Object instance, String name) {
+    public static Field getPrivateAttribute(Object instance, String name) throws ReflectiveOperationException {
         Field field = null;
 
         // instance and name must NOT be null.
-        if (instance == null || name == null || name.isBlank())
-        {
-            return null;
-        }
+        requireNonNull(instance, "instance");
+        requireNonBlank(name, "name");
 
         try
         {
-
             field = instance.getClass().getDeclaredField(name);
-            field.setAccessible(true);
+            requireNonNull(field, "field").setAccessible(true);
+
+        } catch (NullPointerException ex)
+        {
+            // Do nothing - return null.
+
         } catch (NoSuchFieldException | SecurityException ex)
         {
-            System.err.println(ex.getMessage());
+            throw new ReflectiveOperationException(ex);
         }
 
         return field;
@@ -103,7 +115,7 @@ public final class Reflect {
      * Get access to a private method of a class instance.
      * <p>
      * Example:<br>
-     * The follow classes are in separate files: {@code Person.java} and {@code Main.java}.<br>
+     * The follow classes would be in separate files: {@code Person.java} and {@code Main.java}.<br>
      * <br><hr>
      * <pre><code>
      * public class Person {
@@ -144,23 +156,22 @@ public final class Reflect {
      *
      * @param instance   The instantiated Class object.
      * @param name       The name of the class attribute to get.
-     * @param sampleArgs Sample arguments/parameters. Used only to obtain their Class<&lt;?&gt; types.
+     * @param sampleArgs Sample arguments/parameters. Used only to obtain their Class&lt;?&gt; types.
      *
-     * @return The Method object representing the required method.
+     * @return The Method object representing the required class method, or <i>null</i> if not found.
+     *
+     * @throws BlankStringException         if {@code name} is <i>blank</i>.
+     * @throws NullPointerException         if either {@code instance} or {@code name} are <i>null</i>.
+     * @throws ReflectiveOperationException if a reflective operation failed.
      */
-    public static Method getPrivateMethod(Object instance, String name, Object... sampleArgs) {
+    public static Method getPrivateMethod(Object instance, String name, Object... sampleArgs) throws ReflectiveOperationException {
         Class<?>[] types = null;
         Method method = null;
         int length = sampleArgs.length;
 
         // instance and name must NOT be null.
-        Objects.requireNonNull(instance, "instance must not be null.");
-        Objects.requireNonNull(name, "name must not be null.");
-
-        if (instance == null || name == null || name.isBlank())
-        {
-            return null;
-        }
+        requireNonNull(instance, "instance");
+        requireNonBlank(name, "name");
 
         if (length > 0)
         {
@@ -175,21 +186,24 @@ public final class Reflect {
         try
         {
             method = instance.getClass().getDeclaredMethod(name, types);
-            method.setAccessible(true);
+            requireNonNull(method, "method").setAccessible(true);
+
+        } catch (NullPointerException ex)
+        {
+            // Do nothing - return null.
+
         } catch (NoSuchMethodException | SecurityException ex)
         {
-            System.err.println(ex.getMessage());
+            throw new ReflectiveOperationException(ex);
         }
 
         return method;
     }
 
     /**
-     * Instantiate a class with a private parameterized constructor.
-     * To access the default constructor, only provide the {@code clazz} parameter.
-     * <p>
+     * Instantiate a class with a private parameterized constructor.To access the default constructor, only provide the {@code clazz} parameter.<p>
      * Example:<br>
-     * The follow classes are in separate files: {@code Person.java} and {@code Main.java}.<br>
+     * The follow classes would be in separate files: {@code Person.java} and {@code Main.java}.<br>
      * <br>
      * <pre><code>
      * public class Person {
@@ -223,30 +237,30 @@ public final class Reflect {
      * Person { name = Jane Doe }
      * </code></pre>
      *
-     * @param <T>   The class type.
-     * @param clazz The class.
+     * @param <T>   The type of the reference.
+     * @param clazz The class to instantiated.
      * @param args  The parameters to be passed to the constructor.
      *
      *
-     * @return The newly instantiated object, or <i>null</i> if error.
+     * @return The newly instantiated object, or <i>null</i> if the required constructor is not found.
+     *
+     * @throws NullPointerException         if {@code clazz} is <i>null</i>.
+     * @throws ReflectiveOperationException if a reflective operation failed.
      */
-    public static <T> T instantiatePrivateClass(Class<T> clazz, Object... args) {
+    public static <T> T instantiatePrivateClass(Class<T> clazz, Object... args) throws ReflectiveOperationException {
         Class<?>[] types = null;
         T rtn = null;
-        int length = args.length;
+        int numParams = args.length;
 
         // clazz must NOT be null.
-        if (clazz == null)
-        {
-            return null;
-        }
+        requireNonNull(clazz, "clazz");
 
         // Setup the types array.
-        if (length > 0)
+        if (numParams > 0)
         {
-            types = new Class<?>[length];
+            types = new Class<?>[numParams];
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < numParams; i++)
             {
                 types[i] = args[i].getClass();
             }
@@ -260,69 +274,82 @@ public final class Reflect {
             // Check through all constructors to find what we need.
             for (Constructor<?> con : cons)
             {
-                // Only looking for 'private' constructors.
-                if (Modifier.isPrivate(con.getModifiers()))
+                // Only looking for 'private' constructors with
+                // the same number of parameters as 'args'.
+                if (Modifier.isPrivate(con.getModifiers()) && con.getParameterCount() == numParams)
                 {
-                    // Must have same number of parameters as 'args'.
-                    if (con.getParameterCount() == length)
-                    {
-                        // If no parameters, then found it.
-                        if (length == 0)
-                        {
-                            con.setAccessible(true);
-                            rtn = (T) con.newInstance(args);
-                            break;
-                        } else // Make sure it has the right signature.
-                        {
-                            Class<?>[] params = con.getParameterTypes();
-                            int found = 0;
-
-                            // Cycle through the parameters.
-                            for (int i = 0; i < length; i++)
-                            {
-                                // If match on class type...
-                                if (params[i] == types[i])
-                                {
-                                    found++;
-                                } else if (params[i].isPrimitive())
-                                {
-                                    if (Primitives.isWrapperFor(params[i].getName(), types[i].getName()))
-                                    {
-                                        found++;
-                                    }
-                                }
-                            }
-
-                            if (found == length)
-                            {
-                                con.setAccessible(true);
-                                rtn = (T) con.newInstance(args);
-                                break;
-                            }
-                        }
-                    }
+                    rtn = checkConstructorSignature(numParams, con, types, rtn, args);
                 }
             }
-
         } catch (IllegalAccessException | IllegalArgumentException
                  | InstantiationException | SecurityException | InvocationTargetException ex)
         {
-            // TODO Add handler code.
-            System.err.println(ex.getMessage());
+            throw new ReflectiveOperationException(ex);
         }
 
         return rtn;
     }
 
     /**
-     * This constructor is private to prevent external instantiation
-     * of this class.
+     * Check the signature of the constructor.
+     *
+     * @param <T>       The type of the reference.
+     * @param numParams The number of required parameters.
+     * @param con       The constructor to check.
+     * @param types     Class types of the required parameters.
+     * @param rtn       Provides the return type reference.
+     * @param args      List of arguments to pass to the constructor on instantiation.
+     *
+     * @return The new instantiated object, or the value of the parameter: {@code rtn}.
+     *
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> T checkConstructorSignature(int numParams, Constructor<?> con, Class<?>[] types, T rtn, Object[] args)
+            throws IllegalAccessException, InvocationTargetException, InstantiationException {
+
+        int found = 0;
+
+        // Make sure it has the right signature.
+        if (numParams > 0)
+        {
+            Class<?>[] params = con.getParameterTypes();
+
+            // Cycle through the parameters.
+            for (int i = 0; i < numParams; i++)
+            {
+                // If match on class type...
+                if (params[i] == types[i]
+                    || params[i].isPrimitive()
+                       && Primitives.isWrapperFor(params[i].getName(), types[i].getName()))
+                {
+                    found++;
+                }
+            }
+        }
+
+        if (found == numParams)
+        {
+            con.setAccessible(true);
+            rtn = (T) con.newInstance(args);
+        }
+
+        return rtn;
+    }
+
+    /**
+     * This class is not meant to be instantiated.
      */
     private Reflect() {
     }
 
     /**
      * Used for matching primitives and their wrapper classes.
+     *
+     * @since 1.0.5
+     * @version 1.0.6
      */
     private static class Primitives {
 
@@ -371,20 +398,22 @@ public final class Reflect {
          * @param className Name of class.
          *
          * @return <i>true</i> if it is, <i>false</i> otherwise.
+         *
+         * @throws NullPointerException if either {@code primitive} or {@code className} are <i>null</i>.
+         * @throws BlankStringException if either {@code primitive} or {@code className} are <i>blank</i>.
          */
         public static boolean isWrapperFor(String primitive, String className) {
+            requireNonBlank(primitive, "primitive");
+            requireNonBlank(className, "className");
 
             // Linear search for primitive in the list.
             for (String[] entry : THE_LIST)
             {
-                // Have we a match?
-                if (entry[0].equals(primitive))
+                // Have we a found the primitive?
+                // Is 'className' the wrapper class?
+                if (entry[0].equals(primitive) && entry[1].equals(className))
                 {
-                    // Is it the wrapper class?
-                    if (entry[1].equals(className))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
