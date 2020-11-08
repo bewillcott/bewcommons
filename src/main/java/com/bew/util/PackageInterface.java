@@ -22,7 +22,10 @@ import java.net.URL;
 
 /**
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0
  */
 public interface PackageInterface {
 

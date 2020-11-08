@@ -23,7 +23,8 @@ import java.io.IOException;
 /**
  * The name is very self-explanatory.
  *
- * @author Brad Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
  * @version 1.0
  */
@@ -32,15 +33,14 @@ public class FileAlreadyLoadedException extends IOException {
     private static final long serialVersionUID = 2345633335946985039L;
 
     /**
-     * Constructs an FileAlreadyLoadedException with no detail message.
+     * Constructs a new exception without a detail message.
      */
     public FileAlreadyLoadedException() {
         super();
     }
 
     /**
-     * Constructs an FileAlreadyLoadedException with the specified detail
-     * message.
+     * Constructs a new exception with the specified detail message.
      *
      * @param message the detail message.
      */
@@ -65,7 +65,7 @@ public class FileAlreadyLoadedException extends IOException {
 
     /**
      * Constructs a new exception with the specified detail message and cause.
-     *
+     * <p>
      * Note that the detail message associated with cause is not automatically
      * incorporated in this exception's detail message.
      *

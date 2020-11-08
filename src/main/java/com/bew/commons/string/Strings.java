@@ -22,10 +22,12 @@ import java.util.Objects;
 
 /**
  * Strings class description.
+ * Class contains some helper methods.
  *
  * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0.6
- * @version 1.0.6
+ * @version 1.0.7
  */
 public class Strings {
 
@@ -36,50 +38,67 @@ public class Strings {
     }
 
     /**
-     * Checks that the specified string isn't <i>blank</i>.<p>
-     * That is, the string isn't empty or contain only white space code-points.
+     * Checks that the specified string isn't <i>blank</i>.
+     * <dl>
+     * <dt>blank:</dt>
+     * <dd>The string is either <i>empty</i> or contains only white space code-points.</dd>
+     * <dt>empty:</dt>
+     * <dd>The string's {@code length} is {@code 0}.</dd>
+     * </dl>
      *
      * @param str The string to check for blankness.
      *
      * @return {@code str} if not <i>blank</i>.
      *
-     * @throws NullPointerException if {@code str} is <i>null</i>.
-     * @throws BlankStringException if {@code str} is <i>blank</i>.
+     * @throws NullPointerException     if {@code str} is <i>null</i>.
+     * @throws IllegalArgumentException if {@code str} is <i>blank</i>.
+     *
+     * @see #requireNonEmpty(java.lang.String)
      */
     public static String requireNonBlank(String str) {
         if (Objects.requireNonNull(str).isBlank())
         {
-            throw new BlankStringException();
+            throw new IllegalArgumentException("isBlank.");
         }
 
         return str;
     }
 
     /**
-     * Checks that the specified string isn't <i>blank</i>.<p>
-     * That is, the string isn't empty or contain only white space code-points.
+     * Checks that the specified string isn't <i>blank</i>.
+     * <dl>
+     * <dt>blank:</dt>
+     * <dd>The string is either <i>empty</i> or contains only white space code-points.</dd>
+     * <dt>empty:</dt>
+     * <dd>The string's {@code length} is {@code 0}.</dd>
+     * </dl>
      *
      * @param str     The string to check for blankness.
-     * @param message Detail message to be used in the event that a
-     *                {@code BlankStringException} is thrown.
+     * @param message Detail message to be used in the event that an exception is thrown.
      *
      * @return {@code str} if not <i>blank</i>.
      *
-     * @throws NullPointerException if {@code str} is <i>null</i>.
-     * @throws BlankStringException if {@code str} is <i>blank</i>.
+     * @throws NullPointerException     if {@code str} is <i>null</i>.
+     * @throws IllegalArgumentException if {@code str} is <i>blank</i>.
+     *
+     * @see #requireNonEmpty(java.lang.String, java.lang.String)
      */
     public static String requireNonBlank(String str, String message) {
         if (Objects.requireNonNull(str, message).isBlank())
         {
-            throw new BlankStringException(message);
+            throw new IllegalArgumentException("isBlank: " + message);
         }
 
         return str;
     }
 
     /**
-     * Checks that the specified string isn't <i>empty</i>.<p>
-     * That is, the string's {@code length} is greater than '{@code 0}'.
+     * Checks that the specified string isn't <i>empty</i>.
+     * <dl>
+     * <dt>empty:</dt>
+     * <dd>The string's {@code length} is {@code 0}.</dd>
+     * </dl>
+     *
      *
      * @param str The string to check for emptiness.
      *
@@ -91,29 +110,31 @@ public class Strings {
     public static String requireNonEmpty(String str) {
         if (Objects.requireNonNull(str).isEmpty())
         {
-            throw new EmptyStringException();
+            throw new IllegalArgumentException("isEmpty.");
         }
 
         return str;
     }
 
     /**
-     * Checks that the specified string isn't <i>empty</i>.<p>
-     * That is, the string's {@code length} is '{@code 0}'.
+     * Checks that the specified string isn't <i>empty</i>.
+     * <dl>
+     * <dt>empty:</dt>
+     * <dd>The string's {@code length} is {@code 0}.</dd>
+     * </dl>
      *
      * @param str     The string to check for emptiness.
-     * @param message Detail message to be used in the event that an
-     *                {@code EmptyStringException} is thrown.
+     * @param message Detail message to be used in the event that an exception is thrown.
      *
      * @return {@code str} if not <i>empty</i>.
      *
-     * @throws NullPointerException if {@code str} is <i>null</i>.
-     * @throws EmptyStringException if {@code str} is <i>empty</i>.
+     * @throws NullPointerException     if {@code str} is <i>null</i>.
+     * @throws IllegalArgumentException if {@code str} is <i>empty</i>.
      */
     public static String requireNonEmpty(String str, String message) {
         if (Objects.requireNonNull(str, message).isEmpty())
         {
-            throw new EmptyStringException(message);
+            throw new IllegalArgumentException("isEmpty: " + message);
         }
 
         return str;

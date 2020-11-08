@@ -18,8 +18,8 @@
  */
 
 module BEWCommons {
-//    requires java.logging;
     requires java.desktop;
+    requires org.apache.logging.log4j;
     requires transitive java.sql;
 
     exports com.bew.commons;
@@ -27,6 +27,7 @@ module BEWCommons {
     exports com.bew.commons.reflect;
     exports com.bew.commons.regexp;
     exports com.bew.commons.sqlite;
+    exports com.bew.commons.string;
     exports com.bew.util;
     exports com.centerkey.utils;
 }

@@ -27,8 +27,8 @@ import java.io.Serializable;
  * @param <K> Object type for {@code key}.
  * @param <V> Object type for {@code value}.
  *
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
  *
- * @author Brad Willcott
  * @since 1.0
  * @version 1.0
  */
@@ -49,7 +49,7 @@ public class Property<K, V> implements Serializable {
     public Property(K key, V value) {
         this.key = key;
         this.value = value;
-        comment = null;
+        this.comment = null;
     }
 
     /**

@@ -21,26 +21,29 @@ package com.bew.commons;
 /**
  * This exception might be thrown to indicate that there was a class level
  * internal state that was incompatible with the requested methods operation.
+ * <p>
+ * <b>Changes:</b><br>
+ * Version 1.0.6:<br>
+ * Now extends {@link RuntimeException}, instead of {@link Exception}.
  *
- * @author Brad Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
  * @version 1.0.6
  */
-public class InvalidProgramStateException extends Exception {
+public class InvalidProgramStateException extends RuntimeException {
 
-    private static final long serialVersionUID = 5899909813938071202L;
+    private static final long serialVersionUID = 4857309066668687612L;
 
     /**
-     * Constructs an instance of <code>InvalidProgramStateException</code>
-     * without a detail message.
+     * Constructs a new exception without a detail message.
      */
     public InvalidProgramStateException() {
         super();
     }
 
     /**
-     * Constructs an instance of <code>InvalidProgramStateException</code>
-     * with the specified detail message.
+     * Constructs a new exception with the specified detail message.
      *
      * @param message The detail message.
      */

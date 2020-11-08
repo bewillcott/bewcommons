@@ -19,8 +19,7 @@
 package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
-import com.bew.util.Property;
-import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -38,20 +37,47 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class IniDocumentTest {
 
-    private static final String[][] INPUT = {
-        {"others", "Home", "Newtown"},
-        {"Employees", "001", "Fred Smith"},
-        {"Fred Smith", "Address", "10 Anders Ave"},
-        {"Fred Smith", "Suburb", "Jinville"},
-        {"Fred Smith", "State", "SA"},
-        {"Fred Smith", "Phone", "0412-345-395"},
-        {"Fred Smith", "Comments", "Good worker"},
-        {"Employees", "002", "Peter Davis"},
-        {"Peter Davis", "Address", "12A Anders Way"},
-        {"Peter Davis", "Suburb", "Shineytown"},
-        {"Peter Davis", "State", "Vic"},
-        {"Peter Davis", "Phone", "0428-859-271"},
-        {"Peter Davis", "Comments", "Avg. worker"}
+    private static final String[][] INPUT =
+    {
+        {
+            "others", "Home", "Newtown"
+        },
+        {
+            "Employees", "001", "Fred Smith"
+        },
+        {
+            "Fred Smith", "Address", "10 Anders Ave"
+        },
+        {
+            "Fred Smith", "Suburb", "Jinville"
+        },
+        {
+            "Fred Smith", "State", "SA"
+        },
+        {
+            "Fred Smith", "Phone", "0412-345-395"
+        },
+        {
+            "Fred Smith", "Comments", "Good worker"
+        },
+        {
+            "Employees", "002", "Peter Davis"
+        },
+        {
+            "Peter Davis", "Address", "12A Anders Way"
+        },
+        {
+            "Peter Davis", "Suburb", "Shineytown"
+        },
+        {
+            "Peter Davis", "State", "Vic"
+        },
+        {
+            "Peter Davis", "Phone", "0428-859-271"
+        },
+        {
+            "Peter Davis", "Comments", "Avg. worker"
+        }
     };
     private static IniDocument INSTANCE;
     private static final int KEY = 1;
@@ -93,11 +119,13 @@ public class IniDocumentTest {
         sm.key = "test";
         boolean value = true;
         boolean defaultvalue = false;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setBoolean(section, sm.key, value);
             INSTANCE.setBoolean(section, sm.key, value);
         });
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  INSTANCE.setBoolean(section, null, value);
              });
 
@@ -105,7 +133,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setBoolean(section, sm.key, value, TEST_COMMENT);
             INSTANCE.setBoolean(section, sm.key, value, TEST_COMMENT);
         });
@@ -115,13 +144,15 @@ public class IniDocumentTest {
 
         sm.key = NOVALUE_KEY;
         assertEquals(defaultvalue, INSTANCE.getBoolean(section, sm.key, defaultvalue));
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         assertEquals(defaultvalue, INSTANCE.getBoolean(section, sm.key, defaultvalue));
 
         sm.key = "testBooleanG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setBooleanG(sm.key, value);
             INSTANCE.setBooleanG(sm.key, value);
         });
@@ -129,14 +160,16 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "testBooleanG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setBooleanG(sm.key, value, TEST_COMMENT);
             INSTANCE.setBooleanG(sm.key, value, TEST_COMMENT);
         });
         result2 = INSTANCE.getCommentG(sm.key);
         assertEquals(TEST_COMMENT, result2);
 
-        assertThrows(InvalidParameterValueException.class, () -> {
+        assertThrows(InvalidParameterValueException.class, () ->
+             {
                  INSTANCE.setBooleanG(sm.key, value, "This is a bad comment.");
              });
 
@@ -151,30 +184,35 @@ public class IniDocumentTest {
         System.out.println("testComment");
         String section = "testComment";
         sm.key = "test";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         String result = INSTANCE.getComment(section, sm.key);
         assertEquals(TEST_COMMENT, result);
 
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  INSTANCE.setComment(section, null, TEST_COMMENT);
              });
 
         sm.key = "testCommentG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setCommentG(sm.key, TEST_COMMENT);
         });
         result = INSTANCE.getCommentG(sm.key);
         assertEquals(TEST_COMMENT, result);
 
         sm.key = "testCommentG2";
-        assertThrows(InvalidParameterValueException.class, () -> {
+        assertThrows(InvalidParameterValueException.class, () ->
+             {
                  INSTANCE.setCommentG(sm.key, "");
              });
 
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setCommentG(sm.key, null);
         });
 
@@ -191,17 +229,16 @@ public class IniDocumentTest {
         String section = "testContainsKey";
         String key = "test";
         String value = "maybe";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setString(section, key, value);
         });
         assertTrue(INSTANCE.containsKey(section, key));
         assertFalse(INSTANCE.containsKey(section, "badKey"));
         assertFalse(INSTANCE.containsKey("badSection", key));
-        assertThrows(NullPointerException.class, () -> {
-                 INSTANCE.containsKey(section, null);
-             });
 
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setStringG(key, value);
         });
         assertTrue(INSTANCE.containsKeyG(key));
@@ -215,7 +252,8 @@ public class IniDocumentTest {
     public void testContainsSection() {
         System.out.println("testContainsSection");
         String section = "testContainsSection";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setSection(section);
         });
         assertTrue(INSTANCE.containsSection(section));
@@ -233,7 +271,8 @@ public class IniDocumentTest {
         sm.key = "test";
         double value = 100.0;
         double defaultvalue = 0.0;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setDouble(section, sm.key, value);
             INSTANCE.setDouble(section, sm.key, value);
         });
@@ -241,7 +280,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setDouble(section, sm.key, value, TEST_COMMENT);
             INSTANCE.setDouble(section, sm.key, value, TEST_COMMENT);
         });
@@ -249,14 +289,16 @@ public class IniDocumentTest {
         assertEquals(TEST_COMMENT, result2);
 
         sm.key = NOVALUE_KEY;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         result = INSTANCE.getDouble(section, sm.key, defaultvalue);
         assertEquals(defaultvalue, result);
 
         sm.key = "testDoubleG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setDoubleG(sm.key, value);
             INSTANCE.setDoubleG(sm.key, value);
         });
@@ -264,7 +306,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "testDoubleG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setDoubleG(sm.key, value, TEST_COMMENT);
             INSTANCE.setDoubleG(sm.key, value, TEST_COMMENT);
         });
@@ -283,7 +326,8 @@ public class IniDocumentTest {
         sm.key = "test";
         float value = 100.0F;
         float defaultvalue = 0.0F;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setFloat(section, sm.key, value);
             INSTANCE.setFloat(section, sm.key, value);
         });
@@ -291,7 +335,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setFloat(section, sm.key, value, TEST_COMMENT);
             INSTANCE.setFloat(section, sm.key, value, TEST_COMMENT);
         });
@@ -299,14 +344,16 @@ public class IniDocumentTest {
         assertEquals(TEST_COMMENT, result2);
 
         sm.key = NOVALUE_KEY;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         result = INSTANCE.getFloat(section, sm.key, defaultvalue);
         assertEquals(defaultvalue, result);
 
         sm.key = "testFloatG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setFloatG(sm.key, value);
             INSTANCE.setFloatG(sm.key, value);
         });
@@ -314,7 +361,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "testFloatG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setFloatG(sm.key, value, TEST_COMMENT);
             INSTANCE.setFloatG(sm.key, value, TEST_COMMENT);
         });
@@ -333,7 +381,8 @@ public class IniDocumentTest {
         sm.key = "test";
         int value = 100;
         int defaultvalue = 0;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setInt(section, sm.key, value);
             INSTANCE.setInt(section, sm.key, value);
         });
@@ -341,7 +390,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setInt(section, sm.key, value, TEST_COMMENT);
             INSTANCE.setInt(section, sm.key, value, TEST_COMMENT);
         });
@@ -349,14 +399,16 @@ public class IniDocumentTest {
         assertEquals(TEST_COMMENT, result2);
 
         sm.key = NOVALUE_KEY;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         result = INSTANCE.getInt(section, sm.key, defaultvalue);
         assertEquals(defaultvalue, result);
 
         sm.key = "testIntG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setIntG(sm.key, value);
             INSTANCE.setIntG(sm.key, value);
         });
@@ -364,7 +416,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "testIntG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setIntG(sm.key, value, TEST_COMMENT);
             INSTANCE.setIntG(sm.key, value, TEST_COMMENT);
         });
@@ -383,7 +436,8 @@ public class IniDocumentTest {
         sm.key = "test";
         long value = 100;
         long defaultvalue = 0;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setLong(section, sm.key, value);
             INSTANCE.setLong(section, sm.key, value);
         });
@@ -391,7 +445,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setLong(section, sm.key, value, TEST_COMMENT);
             INSTANCE.setLong(section, sm.key, value, TEST_COMMENT);
         });
@@ -399,14 +454,16 @@ public class IniDocumentTest {
         assertEquals(TEST_COMMENT, result2);
 
         sm.key = NOVALUE_KEY;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, sm.key, TEST_COMMENT);
         });
         result = INSTANCE.getLong(section, sm.key, defaultvalue);
         assertEquals(defaultvalue, result);
 
         sm.key = "testLongG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setLongG(sm.key, value);
             INSTANCE.setLongG(sm.key, value);
         });
@@ -414,7 +471,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         sm.key = "testLongG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setLongG(sm.key, value, TEST_COMMENT);
             INSTANCE.setLongG(sm.key, value, TEST_COMMENT);
         });
@@ -429,29 +487,33 @@ public class IniDocumentTest {
     public void testSection() {
         System.out.println("testSection");
         String section = "testSection";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setSection(section);
             INSTANCE.setSection(section);
         });
         assertTrue(INSTANCE.containsSection(section));
 
-        for (String[] inparr : INPUT) {
-            assertDoesNotThrow(() -> {
+        for (String[] inparr : INPUT)
+        {
+            assertDoesNotThrow(() ->
+            {
                 INSTANCE.setString(inparr[SECTION], inparr[KEY], inparr[VALUE]);
             });
         }
-        ArrayList<Property<String, Object>> result = INSTANCE.getSection(TEST_SECTION);
+        List<com.bew.util.Property2<String, Object>> result = INSTANCE.getSection(TEST_SECTION);
         assertNotNull(result);
         assertTrue(result.size() == TEST_SIZE);
-        assertTrue(result.get(TEST_INDEX).key.equals(TEST_KEY)
-                   && result.get(TEST_INDEX).value.equals(TEST_VALUE));
+        assertTrue(result.get(TEST_INDEX).key().equals(TEST_KEY)
+                   && result.get(TEST_INDEX).value().equals(TEST_VALUE));
 
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setSection(section, TEST_COMMENT);
         });
         assertTrue(TEST_COMMENT.equals(INSTANCE.getSectionComment(section)));
 
-        ArrayList<String> result2 = INSTANCE.getSections();
+        List<String> result2 = INSTANCE.getSections();
         assertNotNull(result2);
         assertTrue(result2.size() >= 5);
         assertTrue(result2.contains(section));
@@ -472,7 +534,8 @@ public class IniDocumentTest {
         ms.key = "test";
         String value = "A string";
         String defaultvalue = "Not there!";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setString(section, ms.key, value);
             INSTANCE.setString(section, ms.key, value);
         });
@@ -480,7 +543,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         ms.key = "test2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setString(section, ms.key, value, TEST_COMMENT);
             INSTANCE.setString(section, ms.key, value, TEST_COMMENT);
         });
@@ -488,14 +552,16 @@ public class IniDocumentTest {
         assertEquals(TEST_COMMENT, result2);
 
         ms.key = NOVALUE_KEY;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setComment(section, ms.key, TEST_COMMENT);
         });
         result = INSTANCE.getString(section, ms.key, defaultvalue);
         assertEquals(defaultvalue, result);
 
         ms.key = "testStringG";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setStringG(ms.key, value);
             INSTANCE.setStringG(ms.key, value);
         });
@@ -503,7 +569,8 @@ public class IniDocumentTest {
         assertEquals(value, result);
 
         ms.key = "testStringG2";
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             INSTANCE.setStringG(ms.key, value, TEST_COMMENT);
             INSTANCE.setStringG(ms.key, value, TEST_COMMENT);
         });

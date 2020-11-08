@@ -20,7 +20,10 @@ package com.bew.commons.fileio;
 
 /**
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0
  */
 public class XmlFile {
 

@@ -21,11 +21,14 @@ package com.bew.util;
 /**
  * Provides a way of protecting the members from accidental modification.
  *
- * @author Bradley Willcott
  * @param <V> Type for {@code value}.
  *
- * @see MutableProperty
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
+ * @version 1.0
+ *
+ * @see MutableProperty
  */
 public interface ImmutablePropertyInterface<V> {
 

@@ -41,7 +41,8 @@ import java.util.Objects;
  *
  * @param <V> Object type for {@code value}.
  *
- * @author Brad Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
  * @version 1.0
  */
@@ -95,20 +96,27 @@ public class MutableProperty<V> implements Serializable, Comparable<MutablePrope
 
     @Override
     public int compareTo(MutableProperty<V> other) throws NullPointerException {
-        if (other == null) {
+        if (other == null)
+        {
             throw new NullPointerException("Null parameter.");
         }
 
-        if (this.key == null) {
-            if (other.key == null) {
+        if (this.key == null)
+        {
+            if (other.key == null)
+            {
                 return 0;
-            } else {
+            } else
+            {
                 return -1;
             }
-        } else {
-            if (other.key == null) {
+        } else
+        {
+            if (other.key == null)
+            {
                 return 1;
-            } else {
+            } else
+            {
                 return this.key.compareTo(other.key);
             }
         }
@@ -120,21 +128,27 @@ public class MutableProperty<V> implements Serializable, Comparable<MutablePrope
     }
 
     public boolean equals(String other) {
-        if (this.key == null) {
+        if (this.key == null)
+        {
             return other == null;
-        } else if (other == null) {
+        } else if (other == null)
+        {
             return false;
-        } else {
+        } else
+        {
             return this.key.equals(other);
         }
     }
 
     public boolean equals(MutableProperty<V> other) {
-        if (other == null) {
+        if (other == null)
+        {
             return false;
-        } else if (this.key == null) {
+        } else if (this.key == null)
+        {
             return other.key == null;
-        } else {
+        } else
+        {
             return this.key.equals(other.key);
         }
 
@@ -147,8 +161,8 @@ public class MutableProperty<V> implements Serializable, Comparable<MutablePrope
      *
      * @return Read only copy.
      */
-    public Property<String, V> getReadOnly() {
-        return new Property<>(key, value, comment);
+    public Property2<String, V> getReadOnly() {
+        return new Property2<>(key, value, comment);
     }
 
     @Override

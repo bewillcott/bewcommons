@@ -10,8 +10,13 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * This class stores a copy an initial Date instance. This Date once created, is
+ * never modified.
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0
  */
 public class ImmutableDate implements java.io.Serializable, Cloneable, Comparable<ImmutableDate> {
 
@@ -62,6 +67,12 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
         this.date = new Date();
     }
 
+    /**
+     * Creates a new {@code ImmutableDate} object, and stores a copy of the
+     * Date passed in.
+     *
+     * @param date Date object to copy from.
+     */
     public ImmutableDate(Date date) {
         this.date = new Date(date.getTime());
     }
@@ -133,9 +144,13 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
         {
             // Never happen
         }
+
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(ImmutableDate o) {
         return date.compareTo(o.date);
@@ -163,12 +178,12 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Date)
+        if (obj instanceof Date lDate)
         {
-            return date.getTime() == ((Date) obj).getTime();
-        } else if (obj instanceof ImmutableDate)
+            return date.getTime() == lDate.getTime();
+        } else if (obj instanceof ImmutableDate immutableDate)
         {
-            return date.getTime() == ((ImmutableDate) obj).date.getTime();
+            return date.getTime() == immutableDate.date.getTime();
 
         } else
         {
@@ -187,6 +202,9 @@ public class ImmutableDate implements java.io.Serializable, Cloneable, Comparabl
         return date.getTime();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 3;

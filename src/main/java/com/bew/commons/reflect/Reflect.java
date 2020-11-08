@@ -18,7 +18,6 @@
  */
 package com.bew.commons.reflect;
 
-import com.bew.commons.string.BlankStringException;
 import java.lang.reflect.*;
 
 import static com.bew.commons.string.Strings.requireNonBlank;
@@ -38,8 +37,9 @@ import static java.util.Objects.requireNonNull;
  * </p>
  *
  * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0.5
- * @version 1.0.6
+ * @version 1.0.7
  */
 public final class Reflect {
 
@@ -83,7 +83,7 @@ public final class Reflect {
      * @return The Field object representing the required class attribute,
      *         or <i>null</i> if not found.
      *
-     * @throws BlankStringException         if {@code name} is <i>blank</i>.
+     * @throws IllegalArgumentException     if {@code name} is <i>blank</i>.
      * @throws NullPointerException         if either {@code instance} or {@code name} are <i>null</i>.
      * @throws ReflectiveOperationException if a reflective operation failed.
      */
@@ -160,7 +160,7 @@ public final class Reflect {
      *
      * @return The Method object representing the required class method, or <i>null</i> if not found.
      *
-     * @throws BlankStringException         if {@code name} is <i>blank</i>.
+     * @throws IllegalArgumentException     if {@code name} is <i>blank</i>.
      * @throws NullPointerException         if either {@code instance} or {@code name} are <i>null</i>.
      * @throws ReflectiveOperationException if a reflective operation failed.
      */

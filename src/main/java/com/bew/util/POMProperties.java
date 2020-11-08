@@ -31,7 +31,10 @@ import java.util.Properties;
  * System.out.println(pom.title):
  * </code></pre>
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0
  */
 public final class POMProperties {
 
@@ -67,9 +70,11 @@ public final class POMProperties {
 
     private POMProperties() {
         Properties properties = new Properties();
-        try {
+        try
+        {
             properties.load(POMProperties.class.getResourceAsStream("/BEWCommons.properties"));
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             throw new RuntimeException("FileIOError", ex);
         }
 

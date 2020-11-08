@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * To provide classes common the the whole package, such as Exception classes.
+ * To provide classes common to the whole package, such as Exception classes.
  *
  * @since 1.0
  */

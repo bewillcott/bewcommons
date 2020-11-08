@@ -35,7 +35,10 @@ import static java.util.regex.Pattern.MULTILINE;
 /**
  * This class holds pre-tested regular expressions.
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0.5
  */
 public class Regexp {
 
@@ -48,22 +51,24 @@ public class Regexp {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         String filename = "/Markdown Documentation - Basics.html";
-//        String filename = "/test.html";
 
         System.out.println(HtmlTagRegex);
         Pattern p = HtmlTagRegex.getPattern(MULTILINE);
         URL fileUrl = Regexp.class.getResource(filename);
 
-        if (fileUrl != null) {
+        if (fileUrl != null)
+        {
             String filepath = URLDecoder.decode(fileUrl.getFile(), "UTF-8");
 
             StringBuilder sb;
 
-            try ( BufferedReader in = new BufferedReader(new FileReader(filepath))) {
+            try (BufferedReader in = new BufferedReader(new FileReader(filepath)))
+            {
                 sb = new StringBuilder();
                 String line;
 
-                while ((line = in.readLine()) != null) {
+                while ((line = in.readLine()) != null)
+                {
                     sb.append(line).append("\n");
                 }
             }
@@ -71,7 +76,8 @@ public class Regexp {
             Matcher m = p.matcher(sb);
             StringBuilder sb2 = new StringBuilder();
 
-            while (m.find()) {
+            while (m.find())
+            {
                 System.out.println(m.group());
 
                 String endTag = m.group("endTag");
@@ -96,14 +102,17 @@ public class Regexp {
                 System.err.println(sb2);
                 sb2.setLength(0);
 
-                try {
+                try
+                {
                     sleep(1);
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException ex)
+                {
                     System.err.println(ex);
                 }
             }
 
-        } else {
+        } else
+        {
             throw new FileNotFoundException(filename);
         }
     }

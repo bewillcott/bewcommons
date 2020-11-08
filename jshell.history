@@ -1,0 +1,68 @@
+VAR#>int x = 45
+EXPRESSION#>y = 2
+VAR#>int \
+	      y = 2
+VAR#>x * y
+METHOD#>String twice(String s){\
+	    return s + s;\
+	}
+VAR#>twice("Hi there! ")
+METHOD#>double volume(double radius) {\
+	    return 4.0 / 3.0 * PI * cube(radius);\
+	}
+VAR#>double PI = 3.1415926535
+VAR#>volume(2)
+METHOD#>double cube(double x) { return x * x * x; }
+EXPRESSION#>volume(2)
+CMD#>/restore
+CMD#>/reload -restore
+VAR#>volume(2)
+METHOD#>double cube(double x) { return x * x * x; }
+CMD#>/reload -restore
+METHOD#>double cube(double x) { return x * x * x; }
+EXPRESSION#>cube(12)
+CMD#>/reload -restore
+METHOD#>double cube(double x) {\
+	    return x * x * x; \
+	}
+METHOD#>double cube(double x) { return x * x * x; }
+VAR#>cube(12)
+VAR#>double PI = 3.1415926535
+METHOD#>double volume(double radius) {\
+	    return 4.0 / 3.0 * PI * cube(radius);\
+	}
+VAR#>volume(2)
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+CMD#>/reload -restore
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+CMD#>/reload -restore
+VAR#>volume(2)
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+CMD#>/reload -restore
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+VAR#>BigDecimal PI = new BigDecimal("3.141592653589793238462643383")
+METHOD#>double cube(double x) { return x * x * x; }
+METHOD#>double volume(double radius) {\
+	    return 4.0 / 3.0 * PI * cube(radius);\
+	}
+METHOD#>int divide(int x, int y) {\
+	    return x / y;\
+	}
+VAR#>divide(2,0\
+	)
+CMD#>/list
+METHOD#>double volume(double radius) {\
+	    return 4.0 / 3.0 * PI * cube(radius);\
+	}
+VAR#>double PI = 3.1415926535
+METHOD#>double volume(double radius) {\
+	    return 4.0 / 3.0 * PI * cube(radius);\
+	}
+VAR#>volume(2)
+CMD#>/list
+VAR#>volume(22)
+VAR#>volume(2D)
+VAR#>double rtn = volume(23.7)
+VAR#>long suid = new Date().getTime();

@@ -17,33 +17,3 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.bew.commons.string;
-
-/**
- * Thrown to indicate that a {@linkplain  java.lang.String#isBlank() String.isBlank}.
- *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
- * @since 1.0.6
- * @version 1.0.6
- */
-public class BlankStringException extends RuntimeException {
-
-    private static final long serialVersionUID = 5342099602738442090L;
-
-    /**
-     * Constructs an instance of <code>BlankStringException</code>
-     * without a detail message.
-     */
-    public BlankStringException() {
-        super();
-    }
-
-    /**
-     * Constructs an instance of <code>BlankStringException</code>
-     * with the specified detail message.
-     *
-     * @param msg The detail message.
-     */
-    public BlankStringException(String msg) {
-        super(msg);
-    }
-}

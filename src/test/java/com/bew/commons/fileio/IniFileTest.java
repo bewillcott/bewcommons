@@ -19,8 +19,6 @@
 package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidProgramStateException;
-import com.bew.util.Property;
-import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -53,64 +52,134 @@ public class IniFileTest {
     private static final String FILEPATH_ORIG2
                                 = TEST_RESOURCES + "Test-orig2.ini";
 
-    private static final String[][] INICONTENTS = {
-        {"C", "# this is an INI file"},
-        {"C", "; this is an alternative comment"},
-        {"B", ""},
-        {"S", "others"},
-        {"P", "Fred Smith = true"},
-        {"P", "s1 = Hello World"},
-        {"P", "boolean = true"},
-        {"B", ""},
-        {"C", "; The numbers racket is noisy."},
-        {"S", "numbers"},
-        {"P", "double = 11.1"},
-        {"P", "float = 12.3F"},
-        {"P", "int = 34"},
-        {"C", "# This is the long but not the short of it."},
-        {"P", "long = 12343567890L"},
-        {"B", ""},
-        {"S", "section"},
-        {"P", "key = value"},
-        {"P", "Bye now ="},
-        {"B", ""}
+    private static final String[][] INICONTENTS =
+    {
+        {
+            "C", "# this is an INI file"
+        },
+        {
+            "C", "; this is an alternative comment"
+        },
+        {
+            "B", ""
+        },
+        {
+            "S", "others"
+        },
+        {
+            "P", "Fred Smith = true"
+        },
+        {
+            "P", "s1 = Hello World"
+        },
+        {
+            "P", "boolean = true"
+        },
+        {
+            "B", ""
+        },
+        {
+            "C", "; The numbers racket is noisy."
+        },
+        {
+            "S", "numbers"
+        },
+        {
+            "P", "double = 11.1"
+        },
+        {
+            "P", "float = 12.3F"
+        },
+        {
+            "P", "int = 34"
+        },
+        {
+            "C", "# This is the long but not the short of it."
+        },
+        {
+            "P", "long = 12343567890L"
+        },
+        {
+            "B", ""
+        },
+        {
+            "S", "section"
+        },
+        {
+            "P", "key = value"
+        },
+        {
+            "P", "Bye now ="
+        },
+        {
+            "B", ""
+        }
     };
 
     private static final int SECTION = 0;
     private static final int KEY = 1;
     private static final int VALUE = 2;
 
-    private static final String[][] INPUT = {
-        {"others", "Home", "Newtown"},
-        {"Employees", "001", "Fred Smith"},
-        {"Fred Smith", "Address", "10 Anders Ave"},
-        {"Fred Smith", "Suburb", "Jinville"},
-        {"Fred Smith", "State", "SA"},
-        {"Fred Smith", "Phone", "0412-345-395"},
-        {"Fred Smith", "Comments", "Good worker"},
-        {"Employees", "002", "Peter Davis"},
-        {"Peter Davis", "Address", "12A Anders Way"},
-        {"Peter Davis", "Suburb", "Shineytown"},
-        {"Peter Davis", "State", "Vic"},
-        {"Peter Davis", "Phone", "0428-859-271"},
-        {"Peter Davis", "Comments", "Avg. worker"}
+    private static final String[][] INPUT =
+    {
+        {
+            "others", "Home", "Newtown"
+        },
+        {
+            "Employees", "001", "Fred Smith"
+        },
+        {
+            "Fred Smith", "Address", "10 Anders Ave"
+        },
+        {
+            "Fred Smith", "Suburb", "Jinville"
+        },
+        {
+            "Fred Smith", "State", "SA"
+        },
+        {
+            "Fred Smith", "Phone", "0412-345-395"
+        },
+        {
+            "Fred Smith", "Comments", "Good worker"
+        },
+        {
+            "Employees", "002", "Peter Davis"
+        },
+        {
+            "Peter Davis", "Address", "12A Anders Way"
+        },
+        {
+            "Peter Davis", "Suburb", "Shineytown"
+        },
+        {
+            "Peter Davis", "State", "Vic"
+        },
+        {
+            "Peter Davis", "Phone", "0428-859-271"
+        },
+        {
+            "Peter Davis", "Comments", "Avg. worker"
+        }
     };
 
     private static final String OUTPUT
-                                = "Id = 001 | Name = Fred Smith | Comment=null\n"
-                                  + "\tAddress: 10 Anders Ave\n"
-                                  + "\tSuburb: Jinville\n"
-                                  + "\tState: SA\n"
-                                  + "\tPhone: 0412-345-395\n"
-                                  + "\tComments: Good worker\n"
-                                  + "\n"
-                                  + "Id = 002 | Name = Peter Davis | Comment=null\n"
-                                  + "\tAddress: 12A Anders Way\n"
-                                  + "\tSuburb: Shineytown\n"
-                                  + "\tState: Vic\n"
-                                  + "\tPhone: 0428-859-271\n"
-                                  + "\tComments: Avg. worker\n"
-                                  + "\n";
+                                = """
+                                  Id = 001 | Name = Fred Smith | Comment=null
+                                  \tAddress: 10 Anders Ave
+                                  \tSuburb: Jinville
+                                  \tState: SA
+                                  \tPhone: 0412-345-395
+                                  \tComments: Good worker
+
+                                  Id = 002 | Name = Peter Davis | Comment=null
+                                  \tAddress: 12A Anders Way
+                                  \tSuburb: Shineytown
+                                  \tState: Vic
+                                  \tPhone: 0428-859-271
+                                  \tComments: Avg. worker
+
+                                  """;
 
     private static final Path PATH;
     private static final Path PATH_ORIG;
@@ -118,7 +187,8 @@ public class IniFileTest {
     private static final Path PATH2;
     private static final Path PATH_ORIG2;
 
-    static {
+    static
+    {
         System.out.println("Initializing: IniFileTest");
         PATH = FileSystems.getDefault().getPath(FILEPATH);
         PATH_ORIG = FileSystems.getDefault().getPath(FILEPATH_ORIG);
@@ -133,7 +203,8 @@ public class IniFileTest {
     @BeforeAll
     public static void setup() {
         System.out.println("BeforeAll setup() method called");
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             Files.copy(PATH_ORIG2, PATH2, StandardCopyOption.REPLACE_EXISTING);
         });
     }
@@ -144,34 +215,38 @@ public class IniFileTest {
     @BeforeEach
     public void setupTest() {
         System.out.println("BeforeEach setupTest() method called");
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             Files.copy(PATH_ORIG, PATH, StandardCopyOption.REPLACE_EXISTING);
         });
     }
 
     /**
-     * Testing filePath methods, of class IniFile.
+     * Testing *File() methods, of class IniFile.
      */
     @Test
     public void testFilePath() {
         System.out.println("testFilePath");
         System.out.println("  filePath not set");
-//        assertNull(new IniFile().filePath());
+        assertNull(new IniFile().path);
 
         System.out.println("  filePath(PATH)");
         IniFile instance
-                = assertDoesNotThrow(() -> {
+                = assertDoesNotThrow(() ->
+                {
                     return new IniFile(PATH).loadFile();
                 });
         assertEquals(FILEPATH, instance.path.toString());
 
         System.out.println("  filePath(null)");
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  new IniFile(null).loadFile();
              });
 
         System.out.println("  filePath(PATH3) - Doesn't exist");
-        assertThrows(NoSuchFileException.class, () -> {
+        assertThrows(NoSuchFileException.class, () ->
+             {
                  new IniFile(PATH_NEW).loadFile();
              });
     }
@@ -192,27 +267,32 @@ public class IniFileTest {
         final MembersState ms = new MembersState();
 
         System.out.println("testLifeCycle");
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             Files.copy(PATH_ORIG, PATH, StandardCopyOption.REPLACE_EXISTING);
         });
 
         System.out.println("  Load an ini file");
-        ms.ini = assertDoesNotThrow(() -> {
+        ms.ini = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
 
         System.out.println("  Add various properties grouped in sections");
-        for (String[] inparr : INPUT) {
+        for (String[] inparr : INPUT)
+        {
             ms.ini.iniDoc.setString(inparr[SECTION], inparr[KEY], inparr[VALUE]);
         }
 
         System.out.println("  Save the ini file");
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             ms.ini.saveFile();
         });
 
         System.out.println("  Load the saved ini file");
-        ms.ini = assertDoesNotThrow(() -> {
+        ms.ini = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
 
@@ -220,23 +300,33 @@ public class IniFileTest {
         System.out.println("  Collect back the information previously stored");
         StringBuilder sb = new StringBuilder();
 
-        for (Property<String, Object> employee : ms.ini.iniDoc.getSection("Employees")) {
-            sb.append(
-                    "Id = " + employee.key
-                    + " | Name = " + employee.value
-                    + " | Comment=" + employee.comment
-                    + "\n"
-            );
-
-            for (Property<String, Object> empDetails : ms.ini.iniDoc.getSection((String) employee.value)) {
-                sb.append((empDetails.comment != null ? "\t" + empDetails.comment + "\n" : "")
-                          + "\t" + empDetails.key + ": "
-                          + empDetails.value
-                          + "\n"
-                );
-            }
-            sb.append("\n");
-        }
+        ms.ini.iniDoc.getSection("Employees")
+                .stream()
+                .map(employee ->
+                {
+                    sb.append("Id = ").append(employee.key()).append(" | Name = ")
+                            .append(employee.value()).append(" | Comment=")
+                            .append(employee.comment()).append("\n");
+                    return employee;
+                })
+                .map(employee ->
+                {
+                    ms.ini.iniDoc.getSection((String) employee.value())
+                            .forEach(empDetails ->
+                            {
+                                sb.append(empDetails
+                                        .comment() != null ? "\t"
+                                                             + empDetails.comment() + "\n" : "")
+                                        .append("\t").append(empDetails.key())
+                                        .append(": ").append(empDetails.value())
+                                        .append("\n");
+                            });
+                    return employee;
+                })
+                .forEachOrdered(_item ->
+                {
+                    sb.append("\n");
+                });
         // Test correct
         System.out.println("  Test compare this information with the original data");
         assertTrue(OUTPUT.equals(sb.toString()));
@@ -248,25 +338,30 @@ public class IniFileTest {
     @Test
     public void testSaveFile() {
         System.out.println("saveFile()");
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             Files.copy(PATH_ORIG2, PATH2, StandardCopyOption.REPLACE_EXISTING);
         });
 
         IniFile instance
-                = assertDoesNotThrow(() -> {
+                = assertDoesNotThrow(() ->
+                {
                     return new IniFile(PATH).loadFile();
                 });
         instance.paddedEquals = true;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             instance.saveFile();
         });
 
         List<String> iniFile
-                     = assertDoesNotThrow(() -> {
+                     = assertDoesNotThrow(() ->
+                {
                     return Files.readAllLines(PATH);
                 });
         List<String> iniFile2
-                     = assertDoesNotThrow(() -> {
+                     = assertDoesNotThrow(() ->
+                {
                     return Files.readAllLines(PATH_ORIG);
                 });
 
@@ -274,7 +369,8 @@ public class IniFileTest {
                    "Incorrect number of lines:\n  expected: " + iniFile2.size()
                    + "\n  but was: " + iniFile.size());
 
-        for (int i = 0; i < iniFile2.size(); i++) {
+        for (int i = 0; i < iniFile2.size(); i++)
+        {
             String get2 = iniFile2.get(i);
             String get = iniFile.get(i);
 
@@ -283,28 +379,33 @@ public class IniFileTest {
                        + get2 + "\n  but was: " + get);
         }
 
-        IniFile instance2 = assertDoesNotThrow(() -> {
+        IniFile instance2 = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH);
         });
-        assertThrows(InvalidProgramStateException.class, () -> {
+        assertThrows(InvalidProgramStateException.class, () ->
+             {
                  instance2.mergeFile(PATH2);
              });
 
-        IniFile instance3 = assertDoesNotThrow(() -> {
+        IniFile instance3 = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             instance3.saveFile();
         });
 
-        IniFileFormatException result
-                               = assertThrows(IniFileFormatException.class, () -> {
-                                          new IniFile(PATH2).loadFile();
-                                      });
+        IniFileFormatException result = assertThrows(IniFileFormatException.class, () ->
+                                             {
+                                                 new IniFile(PATH2).loadFile();
+                                             });
         String test = result.filepath;
         test = result.toString();
 
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  new IniFile(null).loadFile();
              });
 
@@ -317,18 +418,23 @@ public class IniFileTest {
 
     public void testSaveFile_Path() {
         System.out.println("saveFile(PATH)");
-        IniFile instance = assertDoesNotThrow(() -> {
+        IniFile instance = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
         IniDocument iniDoc = instance.iniDoc;
 
         final MembersState ms = new MembersState();
 
-        for (String[] property : INICONTENTS) {
-            switch (property[0]) {
+        for (String[] property : INICONTENTS)
+        {
+            switch (property[0])
+            {
                 case "C":
-                    if (ms.lastComment != null) {
-                        assertDoesNotThrow(() -> {
+                    if (ms.lastComment != null)
+                    {
+                        assertDoesNotThrow(() ->
+                        {
                             iniDoc.setComment(ms.currentSection, "#" + ms.counter++, ms.lastComment);
                         });
                     }
@@ -337,8 +443,10 @@ public class IniFileTest {
                     break;
 
                 case "B":
-                    if (ms.lastComment != null) {
-                        assertDoesNotThrow(() -> {
+                    if (ms.lastComment != null)
+                    {
+                        assertDoesNotThrow(() ->
+                        {
                             iniDoc.setComment(ms.currentSection, "#" + ms.counter++, ms.lastComment);
                         });
                     }
@@ -348,7 +456,8 @@ public class IniFileTest {
 
                 case "S":
                     ms.currentSection = property[1].strip();
-                    assertDoesNotThrow(() -> {
+                    assertDoesNotThrow(() ->
+                    {
                         iniDoc.setSection(ms.currentSection, ms.lastComment);
                     });
                     ms.lastComment = null;
@@ -356,7 +465,8 @@ public class IniFileTest {
 
                 case "P":
                     String[] props = property[1].split("=");
-                    assertDoesNotThrow(() -> {
+                    assertDoesNotThrow(() ->
+                    {
                         iniDoc.setString(ms.currentSection, props[0].strip(),
                                          props.length == 2 ? props[1].strip() : "", ms.lastComment);
                     });
@@ -365,16 +475,19 @@ public class IniFileTest {
         }
 
         instance.paddedEquals = true;
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             instance.saveFileAs(PATH2);
         });
 
         List<String> iniFile
-                     = assertDoesNotThrow(() -> {
+                     = assertDoesNotThrow(() ->
+                {
                     return Files.readAllLines(PATH);
                 });
         List<String> iniFile2
-                     = assertDoesNotThrow(() -> {
+                     = assertDoesNotThrow(() ->
+                {
                     return Files.readAllLines(PATH_ORIG);
                 });
 
@@ -382,7 +495,8 @@ public class IniFileTest {
                    "Incorrect number of lines:\n  expected: " + iniFile2.size()
                    + "\n  but was: " + iniFile.size());
 
-        for (int i = 0; i < iniFile2.size(); i++) {
+        for (int i = 0; i < iniFile2.size(); i++)
+        {
             String get2 = iniFile2.get(i);
             String get = iniFile.get(i);
 
@@ -391,10 +505,12 @@ public class IniFileTest {
                        + get2 + "\n  but was: " + get);
         }
 
-        IniFile instance2 = assertDoesNotThrow(() -> {
+        IniFile instance2 = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  instance2.saveFileAs(null);
              });
     }
@@ -405,7 +521,8 @@ public class IniFileTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        IniFile instance = assertDoesNotThrow(() -> {
+        IniFile instance = assertDoesNotThrow(() ->
+        {
             return new IniFile(PATH).loadFile();
         });
         assertTrue(instance.toString().startsWith("IniFile{\n_path="));

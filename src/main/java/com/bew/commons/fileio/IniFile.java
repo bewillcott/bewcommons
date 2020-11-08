@@ -21,7 +21,7 @@ package com.bew.commons.fileio;
 import com.bew.commons.InvalidParameterValueException;
 import com.bew.commons.InvalidProgramStateException;
 import com.bew.util.MutableProperty;
-import com.bew.util.Property;
+import com.bew.util.Property2;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -132,9 +132,10 @@ import static java.nio.file.StandardOpenOption.WRITE;
  * {@link IniDocument}, and then all of its members and methods.
  * </p>
  *
- * @author Brad Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
- * @version 1.0
+ * @version 1.0.5
  */
 public class IniFile {
 
@@ -152,15 +153,19 @@ public class IniFile {
         Path path = null;
         Path path_orig = null;
 
-        if (fileUrl != null) {
+        if (fileUrl != null)
+        {
             path = FileSystems.getDefault().getPath(fileUrl.getPath());
-        } else {
+        } else
+        {
             throw new FileNotFoundException("/Test.ini");
         }
 
-        if (fileUrl_orig != null) {
+        if (fileUrl_orig != null)
+        {
             path_orig = FileSystems.getDefault().getPath(fileUrl_orig.getPath());
-        } else {
+        } else
+        {
             throw new FileNotFoundException("/Test-orig.ini");
         }
 
@@ -168,31 +173,60 @@ public class IniFile {
         final int KEY = 1;
         final int VALUE = 2;
 
-        final String[][] INPUT = {
-            {"others", "Home", "Newtown"},
-            {"Employees", "001", "Fred Smith"},
-            {"Fred Smith", "Address", "10 Anders Ave"},
-            {"Fred Smith", "Suburb", "Jinville"},
-            {"Fred Smith", "State", "SA"},
-            {"Fred Smith", "Phone", "0412-345-395"},
-            {"Fred Smith", "Comments", "Good worker"},
-            {"Employees", "002", "Peter Davis"},
-            {"Peter Davis", "Address", "12A Anders Way"},
-            {"Peter Davis", "Suburb", "Shineytown"},
-            {"Peter Davis", "State", "Vic"},
-            {"Peter Davis", "Phone", "0428-859-271"},
-            {"Peter Davis", "Comments", "Avg. worker"}
+        final String[][] INPUT =
+        {
+            {
+                "others", "Home", "Newtown"
+            },
+            {
+                "Employees", "001", "Fred Smith"
+            },
+            {
+                "Fred Smith", "Address", "10 Anders Ave"
+            },
+            {
+                "Fred Smith", "Suburb", "Jinville"
+            },
+            {
+                "Fred Smith", "State", "SA"
+            },
+            {
+                "Fred Smith", "Phone", "0412-345-395"
+            },
+            {
+                "Fred Smith", "Comments", "Good worker"
+            },
+            {
+                "Employees", "002", "Peter Davis"
+            },
+            {
+                "Peter Davis", "Address", "12A Anders Way"
+            },
+            {
+                "Peter Davis", "Suburb", "Shineytown"
+            },
+            {
+                "Peter Davis", "State", "Vic"
+            },
+            {
+                "Peter Davis", "Phone", "0428-859-271"
+            },
+            {
+                "Peter Davis", "Comments", "Avg. worker"
+            }
         };
 
         @SuppressWarnings("UnusedAssignment")
         IniFile ini = null;
 
-        try {
+        try
+        {
 
             Files.copy(path_orig, path, StandardCopyOption.REPLACE_EXISTING);
             (ini = new IniFile(path)).loadFile();
 
-            for (String[] inparr : INPUT) {
+            for (String[] inparr : INPUT)
+            {
                 ini.iniDoc.setString(inparr[SECTION], inparr[KEY], inparr[VALUE]);
             }
 
@@ -204,24 +238,27 @@ public class IniFile {
             ini = new IniFile(path);
 
             // Display all employees details
-            for (Property<String, Object> employee : ini.iniDoc.getSection("Employees")) {
+            for (Property2<String, Object> employee : ini.iniDoc.getSection("Employees"))
+            {
                 System.out.println(
-                        "Id = " + employee.key
-                        + " | Name = " + employee.value
-                        + " | Comment=" + employee.comment
+                        "Id = " + employee.key()
+                        + " | Name = " + employee.value()
+                        + " | Comment=" + employee.comment()
                 );
 
-                for (Property<String, Object> empDetails : ini.iniDoc.getSection((String) employee.value)) {
-                    System.out.println((empDetails.comment != null ? "\t" + empDetails.comment + "\n" : "")
-                                       + "\t" + empDetails.key + ": "
-                                       + empDetails.value
+                for (Property2<String, Object> empDetails : ini.iniDoc.getSection((String) employee.value()))
+                {
+                    System.out.println((empDetails.comment() != null ? "\t" + empDetails.comment() + "\n" : "")
+                                       + "\t" + empDetails.key() + ": "
+                                       + empDetails.value()
                     );
                 }
                 System.out.println();
             }
 
         } catch (NullPointerException | IOException
-                 | IniFileFormatException | InvalidParameterValueException ex) {
+                 | IniFileFormatException | InvalidParameterValueException ex)
+        {
             System.err.println(IniFile.class.getName() + ".main():\n" + ex);
             exit(1);
         }
@@ -273,11 +310,14 @@ public class IniFile {
      */
     public IniFile(Path path)
             throws NullPointerException, InvalidParameterValueException {
-        if (path == null) {
+        if (path == null)
+        {
             throw new NullPointerException("path is null");
-        } else if (path.toString().isBlank()) {
+        } else if (path.toString().isBlank())
+        {
             throw new InvalidParameterValueException("path is blank");
-        } else {
+        } else
+        {
             this.path = path;
             iniDoc = new IniDocument();
         }
@@ -315,7 +355,8 @@ public class IniFile {
     public IniFile loadFile()
             throws IOException, IniFileFormatException, InvalidParameterValueException {
 
-        try (BufferedReader in = Files.newBufferedReader(path)) {
+        try (BufferedReader in = Files.newBufferedReader(path))
+        {
             fileIsLoaded = parseINI(in);
         }
 
@@ -337,11 +378,14 @@ public class IniFile {
             throws IOException, IniFileFormatException,
                    InvalidParameterValueException, InvalidProgramStateException {
 
-        if (fileIsLoaded) {
-            try (BufferedReader in = Files.newBufferedReader(file)) {
+        if (fileIsLoaded)
+        {
+            try (BufferedReader in = Files.newBufferedReader(file))
+            {
                 parseINI(in);
             }
-        } else {
+        } else
+        {
             throw new InvalidProgramStateException("File not loaded:\n" + path);
         }
 
@@ -376,13 +420,17 @@ public class IniFile {
      * @throws IOException File i/o problem.
      */
     public IniFile saveFileAs(Path newFile) throws IOException {
-        try (BufferedWriter out = Files.newBufferedWriter(newFile, CREATE, TRUNCATE_EXISTING, WRITE)) {
+        try (BufferedWriter out = Files.newBufferedWriter(newFile, CREATE, TRUNCATE_EXISTING, WRITE))
+        {
             storeINI(out);
         }
 
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -410,7 +458,8 @@ public class IniFile {
         String lastComment = null;
         int lineNumber = 0;
 
-        while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null)
+        {
             lineNumber++;
             Matcher m = p.matcher(line);
             m.find();
@@ -420,27 +469,34 @@ public class IniFile {
             String comment = m.group("Comment");
             String tail = m.group("Tail");
 
-            if (section != null) {
+            if (section != null)
+            {
                 iniDoc.setSection(section, lastComment);
                 lastComment = null;
                 currentSection = section.strip();
-            } else if (key != null) {
+            } else if (key != null)
+            {
                 iniDoc.setString(currentSection, key.strip(), value.strip(), lastComment);
                 lastComment = null;
-            } else if (comment != null) {
-                if (lastComment != null) {
+            } else if (comment != null)
+            {
+                if (lastComment != null)
+                {
                     iniDoc.setComment(currentSection,
                                       lastComment.substring(0, 1) + (lineNumber - 1),
                                       lastComment);
                 }
 
                 lastComment = comment;
-            } else if (!tail.isEmpty()) {
+            } else if (!tail.isEmpty())
+            {
                 throw new IniFileFormatException(path.toString(),
                                                  "Unknown entry (line# " + lineNumber + "): "
                                                  + tail);
-            } else {
-                if (lastComment != null) {
+            } else
+            {
+                if (lastComment != null)
+                {
                     iniDoc.setComment(currentSection,
                                       lastComment.substring(0, 1) + (lineNumber - 1),
                                       lastComment);
@@ -453,22 +509,30 @@ public class IniFile {
 
     private void storeINI(BufferedWriter bw) throws IOException {
 
-        for (MutableProperty<ArrayList<MutableProperty<Object>>> section : iniDoc.entries) {
-            if (section.key != null) {
-                if (section.comment != null) {
+        for (MutableProperty<ArrayList<MutableProperty<Object>>> section : iniDoc.entries)
+        {
+            if (section.key != null)
+            {
+                if (section.comment != null)
+                {
                     bw.write("\n" + section.comment + "\n[" + section.key + "]\n");
-                } else {
+                } else
+                {
                     bw.write("\n[" + section.key + "]\n");
                 }
             }
 
-            for (MutableProperty<Object> key : section.value) {
+            for (MutableProperty<Object> key : section.value)
+            {
                 // Do we have a comment?
-                if (key.key.startsWith("#") || key.key.startsWith(";")) {
+                if (key.key.startsWith("#") || key.key.startsWith(";"))
+                {
                     bw.write(key.comment + "\n");
-                } else if (key.comment != null) {
+                } else if (key.comment != null)
+                {
                     bw.write(key.comment + "\n" + join(key.key, (String) key.value) + "\n");
-                } else {
+                } else
+                {
                     bw.write(join(key.key, (String) key.value) + "\n");
                 }
             }

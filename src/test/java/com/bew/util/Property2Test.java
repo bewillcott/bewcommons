@@ -16,12 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package com.bew.util;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
- * To provide classes related to I/O and types of files.
- * <p>
- * These classes provide functionality to allow reading and modification of
- * their contents, and possibly storing that data back out to a file.
  *
- * @since 1.0
+ * @author Bradley Willcott
  */
-package com.bew.commons.fileio;
+public class Property2Test {
+
+    /**
+     * Test of toString method, of class Property.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("testToString");
+
+        Property2<String, String> p = new Property2<>("Sex", "Female");
+        assertTrue(p.toString().startsWith("Property2"));
+    }
+}

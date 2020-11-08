@@ -22,11 +22,12 @@ package com.bew.commons;
  * Thrown to indicate that a method has been passed a parameter with an invalid
  * or inappropriate value.
  * <p>
- * <b>Changed:</b><br>
- * Version 1.1:<br>
- * Now extends {@code RuntimeException}, instead of {@code Exception}.
+ * <b>Changes:</b><br>
+ * Version 1.0.6:<br>
+ * Now extends {@link RuntimeException}, instead of {@link Exception}.
  *
- * @author Brad Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
  * @version 1.0.6
  */
@@ -35,16 +36,14 @@ public class InvalidParameterValueException extends RuntimeException {
     private static final long serialVersionUID = 947167888439966970L;
 
     /**
-     * Constructs an instance of <code>InvalidParameterValueException</code>
-     * without a detail message.
+     * Constructs a new exception without a detail message.
      */
     public InvalidParameterValueException() {
         super();
     }
 
     /**
-     * Constructs an instance of <code>InvalidParameterValueException</code>
-     * with the specified detail message.
+     * Constructs a new exception with the specified detail message.
      *
      * @param message The detail message.
      */

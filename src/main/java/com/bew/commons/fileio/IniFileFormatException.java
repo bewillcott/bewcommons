@@ -19,10 +19,13 @@
 package com.bew.commons.fileio;
 
 /**
- * When the format of the <u>ini</u> file does not conform to the what this
+ * When the format of the <u>ini</u> file does not conform to what this
  * class expects, this exception will be thrown.
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0.5
  */
 public class IniFileFormatException extends Exception {
 
@@ -34,8 +37,7 @@ public class IniFileFormatException extends Exception {
     public final String filepath;
 
     /**
-     * Constructs an instance of <code>IniFileFormatException</code> with the
-     * specified detail message.
+     * Constructs a new exception with the specified detail message.
      *
      * @param filepath Path to the <u>ini</u> file.
      * @param msg      the detail message.
@@ -50,7 +52,8 @@ public class IniFileFormatException extends Exception {
         StackTraceElement[] stElements = getStackTrace();
         StringBuilder sb = new StringBuilder();
 
-        for (StackTraceElement stElement : stElements) {
+        for (StackTraceElement stElement : stElements)
+        {
             sb.append("\t").append(stElement.toString()).append("\n");
         }
 

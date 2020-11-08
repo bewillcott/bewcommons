@@ -16,34 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bew.commons.string;
+package com.bew.util;
+
+import java.io.Serializable;
 
 /**
- * Thrown to indicate that a {@linkplain  java.lang.String#isEmpty() String.isEmpty}.
+ * Property2 record description.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @param <K> Object type for {@code key}.
+ * @param <V> Object type for {@code value}.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
  * @since 1.0.6
  * @version 1.0.6
  */
-public class EmptyStringException extends RuntimeException {
+public record Property2<K, V>(K key, V value, String comment)
+        implements Serializable {
 
-    private static final long serialVersionUID = 5342099602738442090L;
+    private static final long serialVersionUID = 1604618868046L;
 
-    /**
-     * Constructs an instance of <code>EmptyStringException</code>
-     * without a detail message.
-     */
-    public EmptyStringException() {
-        super();
+    public Property2(K key, V value) {
+        this(key, value, null);
     }
 
-    /**
-     * Constructs an instance of <code>EmptyStringException</code>
-     * with the specified detail message.
-     *
-     * @param msg The detail message.
-     */
-    public EmptyStringException(String msg) {
-        super(msg);
+    public static void main(String[] args) {
+        Property2<String, String> prop = new Property2<>("Fred", "Smith");
+        System.out.println("prop: " + prop);
+        prop = new Property2<>("Mary", "Smith", "Had a little lamby...");
+        System.out.println("prop: " + prop);
     }
 }

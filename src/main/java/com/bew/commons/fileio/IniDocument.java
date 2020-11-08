@@ -20,8 +20,9 @@ package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
 import com.bew.util.MutableProperty;
-import com.bew.util.Property;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,8 +45,10 @@ import java.util.regex.Pattern;
  * {@link IniFile}.
  * </p>
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
+ * @version 1.0.5
  */
 public class IniDocument {
 
@@ -63,7 +66,8 @@ public class IniDocument {
      */
     public static final String INI_PATTERN;
 
-    private static final String[] INI_PATTERNS = {
+    private static final String[] INI_PATTERNS =
+    {
         "^(?:\\[(?<Section>[^\\]]*)\\])",
         "(?<Comment>^[#;][ \\t]+.*)",
         "(?:(?<Key>^[^#;=]+)=)(?:(?<==)(?<Value>.*))",
@@ -74,8 +78,11 @@ public class IniDocument {
     private static final String INI_PROPERTY = INI_PATTERNS[2];
     private static final String INI_SECTION = INI_PATTERNS[0];
     private static final String INI_TAIL = INI_PATTERNS[3];
+    private static final String NULL_KEY_MSG = "A null key is not valid.";
 
-    static {
+    // Initialise final fields.
+    static
+    {
         INI_PATTERN = String.join("|", INI_PATTERNS);
         COMMENT_PATTERN = String.join("|", INI_COMMENT, INI_TAIL);
     }
@@ -91,11 +98,14 @@ public class IniDocument {
      * @since 1.0
      */
     public static boolean validateComment(String comment) {
-        if (comment == null) {
+        if (comment == null)
+        {
             return true;
-        } else if (comment.isEmpty()) {
+        } else if (comment.isEmpty())
+        {
             return false;
-        } else {
+        } else
+        {
             Pattern p = Pattern.compile(COMMENT_PATTERN);
             Matcher m = p.matcher(comment);
             m.find();
@@ -124,22 +134,20 @@ public class IniDocument {
      *
      * @return {@code true} if the key exists, {@code false} otherwise.
      *
-     * @throws NullPointerException if the key is null
      * @since 1.0
      */
-    public boolean containsKey(String section, String key) throws NullPointerException {
-        if (key == null) {
-            throw new NullPointerException("A null key is not valid.");
-        }
-
+    public boolean containsKey(String section, String key) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
+        if (sectionIdx > -1)
+        {
             ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
             return (indexOfKey(kvlist, key) > -1);
-        } else {
+        } else
+        {
             return false;
         }
+
     }
 
     /**
@@ -149,14 +157,13 @@ public class IniDocument {
      * means that this is a possible alternative to
      * {@code java.util.Properties}.
      *
-     * @param key possible key
+     * @param key possible key.
      *
      * @return {@code true} if the key exists, {@code false} otherwise.
      *
-     * @throws NullPointerException if the key is null
      * @since 1.0
      */
-    public boolean containsKeyG(String key) throws NullPointerException {
+    public boolean containsKeyG(String key) {
         return containsKey(null, key);
     }
 
@@ -164,15 +171,13 @@ public class IniDocument {
      * Tests to see whether or not this <b>section</b> exists within the
      * {@link #entries} store.
      *
-     *
-     * @param section possible section
+     * @param section possible section.
      *
      * @return {@code true} if the section exists, {@code false} otherwise.
      *
-     * @throws NullPointerException if the specified section is null
      * @since 1.0
      */
-    public boolean containsSection(String section) throws NullPointerException {
+    public boolean containsSection(String section) {
         return indexOfSection(section) > -1;
     }
 
@@ -186,11 +191,10 @@ public class IniDocument {
      *
      * @return Either the stored value or the defaultValue if key is not found.
      *
-     * @throws NullPointerException if the specified section is null
+     * @throws NullPointerException if the specified key is {@code null}.
      * @since 1.0
      */
-    public boolean getBoolean(String section, String key, boolean defaultvalue)
-            throws NullPointerException {
+    public boolean getBoolean(String section, String key, boolean defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? Boolean.parseBoolean(rtn) : defaultvalue;
     }
@@ -204,17 +208,19 @@ public class IniDocument {
      *
      * @return Either the stored value or the defaultValue if key is not found.
      *
-     * @throws NullPointerException if the specified section is null
+     * @throws NullPointerException if the specified section is {@code null}.
      * @since 1.0
      */
-    public boolean getBooleanG(String key, boolean defaultvalue)
-            throws NullPointerException {
+    public boolean getBooleanG(String key, boolean defaultvalue) {
         return getBoolean(null, key, defaultvalue);
     }
 
     /**
      * Returns the associated {@code comment} for this {@code key} from this
-     * {@code section}, if it is set. Otherwise {@code null}.
+     * {@code section}, if it is set.Otherwise {@code null}.
+     *
+     * @param section The section in which the key should reside.
+     * @param key     The key whose comment we are after.
      *
      * @return The comment or {@code null}.
      *
@@ -223,18 +229,22 @@ public class IniDocument {
     public String getComment(String section, String key) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
+        if (sectionIdx > -1)
+        {
             ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
             int keyIdx = indexOfKey(kvlist, key);
             return keyIdx > -1 ? kvlist.get(keyIdx).comment : null;
-        } else {
+        } else
+        {
             return null;
         }
     }
 
     /**
      * Returns the associated {@code comment} for this {@code key} from the
-     * global section, if it is set. Otherwise {@code null}.
+     * global section, if iOtherwise {@code null}.tde null}.
+     *
+     * @param key
      *
      * @return The comment or {@code null}.
      *
@@ -256,8 +266,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public double getDouble(String section, String key, double defaultvalue)
-            throws NullPointerException {
+    public double getDouble(String section, String key, double defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? Double.parseDouble(rtn) : defaultvalue;
     }
@@ -273,8 +282,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public double getDoubleG(String key, double defaultvalue)
-            throws NullPointerException {
+    public double getDoubleG(String key, double defaultvalue) {
         return getDouble(null, key, defaultvalue);
     }
 
@@ -290,8 +298,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public float getFloat(String section, String key, float defaultvalue)
-            throws NullPointerException {
+    public float getFloat(String section, String key, float defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? Float.parseFloat(rtn) : defaultvalue;
     }
@@ -307,8 +314,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public float getFloatG(String key, float defaultvalue)
-            throws NullPointerException {
+    public float getFloatG(String key, float defaultvalue) {
         return getFloat(null, key, defaultvalue);
     }
 
@@ -324,7 +330,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public int getInt(String section, String key, int defaultvalue) throws NullPointerException {
+    public int getInt(String section, String key, int defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? Integer.parseInt(rtn) : defaultvalue;
     }
@@ -340,7 +346,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public int getIntG(String key, int defaultvalue) throws NullPointerException {
+    public int getIntG(String key, int defaultvalue) {
         return getInt(null, key, defaultvalue);
     }
 
@@ -356,7 +362,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public long getLong(String section, String key, long defaultvalue) throws NullPointerException {
+    public long getLong(String section, String key, long defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? Long.parseLong(rtn) : defaultvalue;
     }
@@ -372,27 +378,36 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public long getLongG(String key, long defaultvalue) throws NullPointerException {
+    public long getLongG(String key, long defaultvalue) {
         return getLong(null, key, defaultvalue);
     }
 
     /**
      * Returns {@code section}'s list of properties.
+     * <p>
+     * <b>Changes:</b>
+     * <dl>
+     * <dt>v1.0.6</dt>
+     * <dd>Return changed from {@link ArrayList ArrayList&lt;&gt;} to {@link List List&lt;&gt;}</dd>
+     * </dl>
+     *
+     * @param section Name of the section.
+     *
+     * @return List of properties.
      *
      * @since 1.0
      */
-    public ArrayList<Property<String, Object>> getSection(String section) {
+    public List<com.bew.util.Property2<String, Object>> getSection(String section) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
-            ArrayList<Property<String, Object>> rtnList = new ArrayList<>();
-
-            entries.get(sectionIdx).value.forEach((mp) -> {
-                rtnList.add(mp.getReadOnly());
-            });
+        if (sectionIdx > -1)
+        {
+            ArrayList<com.bew.util.Property2<String, Object>> rtnList = new ArrayList<>();
+            entries.get(sectionIdx).value.forEach(mp -> rtnList.add(mp.getReadOnly()));
 
             return rtnList;
-        } else {
+        } else
+        {
             return null;
         }
     }
@@ -409,30 +424,38 @@ public class IniDocument {
     }
 
     /**
-     * Returns the {@code comment} for this {@code section}, if set. Otherwise,
-     * {@code null}.<br>
+     * Gets the {@code comment} for this {@code section}.
      * <p>
      * Will also return {@code null} if there is no section by that name.
+     *
+     * @param section
+     *
+     * @return The comment if set, otherwise {@code null}.
      *
      * @since 1.0
      */
     public String getSectionComment(String section) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
+        if (sectionIdx > -1)
+        {
             return entries.get(sectionIdx).comment;
-        } else {
+        } else
+        {
             return null;
         }
     }
 
     /**
      * Returns list of all sections.
+     *
+     * @return
      */
-    public ArrayList<String> getSections() {
+    public List<String> getSections() {
         ArrayList<String> rtnList = new ArrayList<>();
 
-        entries.forEach((section) -> {
+        entries.forEach((section) ->
+        {
             rtnList.add(section.key);
         });
 
@@ -451,8 +474,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public String getString(String section, String key, String defaultvalue)
-            throws NullPointerException {
+    public String getString(String section, String key, String defaultvalue) {
         String rtn = getValue(section, key);
         return rtn != null ? rtn : defaultvalue;
     }
@@ -468,8 +490,7 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public String getStringG(String key, String defaultvalue)
-            throws NullPointerException {
+    public String getStringG(String key, String defaultvalue) {
         return getString(null, key, defaultvalue);
     }
 
@@ -483,11 +504,13 @@ public class IniDocument {
     public void removeKey(String section, String key) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
+        if (sectionIdx > -1)
+        {
             ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
             int idx = indexOfKey(kvlist, key);
 
-            if (idx > -1) {
+            if (idx > -1)
+            {
                 kvlist.remove(idx);
             }
         }
@@ -501,7 +524,8 @@ public class IniDocument {
     public void removeSection(String section) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > 0) {
+        if (sectionIdx > 0)
+        {
             entries.remove(sectionIdx);
         }
     }
@@ -605,14 +629,12 @@ public class IniDocument {
      * @since 1.0
      */
     public String setComment(String section, String key, String comment)
-            throws InvalidParameterValueException,
-                   NullPointerException {
+            throws InvalidParameterValueException {
 
-        if (key == null) {
-            throw new NullPointerException("A null key is not valid.");
-        }
+        Objects.requireNonNull(key, NULL_KEY_MSG);
 
-        if (!validateComment(comment)) {
+        if (!validateComment(comment))
+        {
             throw new InvalidParameterValueException(
                     "section=" + section + "key=" + key + "\ncomment=" + comment
                     + "\nThe comment text is not a valid 'ini' file format comment.");
@@ -620,7 +642,9 @@ public class IniDocument {
 
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx == -1) {
+        if (sectionIdx
+            == -1)
+        {
             entries.add(new MutableProperty<>(section, new ArrayList<>()));
             sectionIdx = indexOfSection(section);
         }
@@ -628,10 +652,12 @@ public class IniDocument {
         ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
         int keyIdx = indexOfKey(kvlist, key);
 
-        if (keyIdx == -1) {
+        if (keyIdx == -1)
+        {
             kvlist.add(new MutableProperty<>(key, null, comment));
             return null;
-        } else {
+        } else
+        {
             MutableProperty<Object> kv = kvlist.get(keyIdx);
             String rtn = kv.comment;
             kv.comment = comment;
@@ -1016,7 +1042,8 @@ public class IniDocument {
     public void setSection(String section, String comment) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx == -1) {
+        if (sectionIdx == -1)
+        {
             entries.add(new MutableProperty<>(section, new ArrayList<>(), comment));
             sectionIdx = indexOfSection(section);
         }
@@ -1042,9 +1069,11 @@ public class IniDocument {
     public String setString(String section, String key, String value) {
         String rtn = null;
 
-        try {
+        try
+        {
             return setString(section, key, value, null);
-        } catch (InvalidParameterValueException ex) {
+        } catch (InvalidParameterValueException ex)
+        {
             // Ignore exception, as it won't ever be thrown.
         }
 
@@ -1066,18 +1095,15 @@ public class IniDocument {
      * @throws InvalidParameterValueException If the {@code comment} is not a
      *                                        valid <u>ini</u> file format
      *                                        comment.
-     * @throws NullPointerException           If {@code key} is {@code null}.
      * @since 1.0
      */
     public String setString(String section, String key, String value, String comment)
-            throws InvalidParameterValueException,
-                   NullPointerException {
+            throws InvalidParameterValueException {
 
-        if (key == null) {
-            throw new NullPointerException("A null key is not valid.");
-        }
+        Objects.requireNonNull(key, NULL_KEY_MSG);
 
-        if (!validateComment(comment)) {
+        if (!validateComment(comment))
+        {
             throw new InvalidParameterValueException(
                     "section=" + section + "key=" + key + "\ncomment=" + comment
                     + "\nThe comment text is not a valid 'ini' file format comment.");
@@ -1085,7 +1111,9 @@ public class IniDocument {
 
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx == -1) {
+        if (sectionIdx
+            == -1)
+        {
             entries.add(new MutableProperty<>(section, new ArrayList<>()));
             sectionIdx = indexOfSection(section);
         }
@@ -1093,10 +1121,13 @@ public class IniDocument {
         ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
         int keyIdx = indexOfKey(kvlist, key);
 
-        if (keyIdx == -1) {
+        if (keyIdx
+            == -1)
+        {
             kvlist.add(new MutableProperty<>(key, value, comment));
             return null;
-        } else {
+        } else
+        {
             MutableProperty<Object> kv = kvlist.get(keyIdx);
             String rtn = (String) kv.value;
             kv.value = value;
@@ -1151,6 +1182,7 @@ public class IniDocument {
         sb.append(IniDocument.class
                 .getName()).append("\n");
         sb.append(entries);
+
         return sb.toString();
     }
 
@@ -1158,71 +1190,85 @@ public class IniDocument {
      * Returns the value to which the specified section/key is mapped, or
      * {@code null} if this map contains no mapping for the section/key.
      * <p>
-     * <p>
      * More formally, if this map contains a section with a mapping from a key
      * {@code k} to a value {@code v} such that {@code key.equals(k)}, then this
      * method returns {@code v}; otherwise it returns {@code null}. (There can
      * be at most one such mapping.)
      * <p>
-     * <p>
-     * Used by the public get*(...) methods.
+     * Used by the {@code public get*(...)} methods.
      *
      * @param section The section in which the key should reside.
      * @param key     The key whose value we are after.
      *
-     * @return value
+     * @return the stored value or {@code null}.
      *
-     * @throws NullPointerException if the specified key is null
      * @since 1.0
      */
     private String getValue(String section, String key) {
         int sectionIdx = indexOfSection(section);
 
-        if (sectionIdx > -1) {
+        if (sectionIdx > -1)
+        {
             ArrayList<MutableProperty<Object>> kvlist = entries.get(sectionIdx).value;
             int keyIdx = indexOfKey(kvlist, key);
+
             return keyIdx > -1 ? (String) kvlist.get(keyIdx).value : null;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
-    /*
-     * Refer to _indexOfSection_
+    /**
+     * Refer to {@link #indexOfSection(java.lang.String)
      */
     private int indexOfKey(ArrayList<MutableProperty<Object>> kvlist, String key) {
-        for (int i = 0; i < kvlist.size(); i++) {
-            String _key = kvlist.get(i).key;
-            if (_key.equals(key)) {
+        for (int i = 0; i < kvlist.size(); i++)
+        {
+            String lkey = kvlist.get(i).key;
+
+            if (lkey.equals(key))
+            {
                 return i;
             }
         }
+
         return -1;
     }
 
-    /*
-     * This method replaces to _indexOf_ methods of the _ArrayList_ class. The
-     * reason being, _indexOf_ puts the parameter of the left side of the
-     * _equals(..)_ call. I have developed the _MutableProperty_ class to test
+    /**
+     * This method replaces the method: {@link ArrayList#indexOf(java.lang.Object) }.
+     * <p>
+     * The reason being, {@code indexOf} puts the parameter on the left side of the
+     * {@code equals()} call. I have developed the {@link MutableProperty} class to test
      * equality against a String:
+     * <pre><code>
      *
-     * MutableProperty<ArrayList<String>> mp = new MutableProperty<>();
+     *    MutableProperty&lt;ArrayList&lt;String&gt;&gt; mp = new MutableProperty&lt;&gt;();
      *
-     * ...
+     *    ...
      *
-     * return mp.equals(obj);
+     *    return mp.equals(obj);
+     * </code></pre>
+     *
+     * @param section searching for.
+     *
+     * @return its index.
      */
     private int indexOfSection(String section) {
-        if (section != null) {
-            for (int i = 1; i < entries.size(); i++) {
-                if (entries.get(i).key.equals(section)) {
+        if (section != null)
+        {
+            for (int i = 1; i < entries.size(); i++)
+            {
+                if (entries.get(i).key.equals(section))
+                {
                     return i;
                 }
             }
 
             return -1;
-        } else {
-            return 0;
         }
+
+        return 0;
+
     }
 }

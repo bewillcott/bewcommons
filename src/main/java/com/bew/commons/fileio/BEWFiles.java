@@ -27,6 +27,8 @@ import java.nio.file.spi.FileSystemProvider;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.Files.copy;
@@ -37,10 +39,18 @@ import static java.nio.file.Files.walkFileTree;
 import static java.nio.file.Path.of;
 
 /**
+ * This class contains various helper methods for file operations.
  *
- * @author Bradley Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
+ * @since 1.0
+ * @version 1.0
  */
 public class BEWFiles {
+
+    // Define a static logger variable so that it references the
+    // Logger instance named "BEWFiles".
+    private static final Logger logger = LogManager.getLogger(BEWFiles.class);
 
     /**
      * Recursively copies the directories and files of the {@code sourceDir} to the {@code destDir}.
@@ -57,7 +67,7 @@ public class BEWFiles {
      * @param verboseLvl Verbose level.
      * @param options    List of objects that configure how to copy or move a file.
      *
-     * @throws IOException If any File IO errors.
+     * @throws IOException If an I/O error occurs.
      */
     public static void copyDirTree(String sourceDir, String destDir, String pattern, int verboseLvl, CopyOption... options) throws IOException {
         Path srcPath = (sourceDir != null ? of(sourceDir) : of(""));
@@ -79,7 +89,7 @@ public class BEWFiles {
      * @param verboseLvl Verbose level.
      * @param options    List of objects that configure how to copy or move a file.
      *
-     * @throws IOException
+     * @throws IOException If an I/O error occurs.
      */
     public static void copyDirTree(Path srcPath, Path destPath, String pattern, int verboseLvl, CopyOption... options) throws IOException {
         // Can't be copying source onto itself.
@@ -239,6 +249,12 @@ public class BEWFiles {
         private int numMatches = 0;
         private final SortedSet<Path> filenames = new TreeSet<>();
 
+        /**
+         * Creates a new instance of the {@code Finder} class.
+         *
+         * @param pattern The file search pattern to be used.
+         * @param vlevel  The verbose level, for info/debugging.
+         */
         Finder(String pattern, int vlevel) {
             matcher = FileSystems.getDefault()
                     .getPathMatcher("glob:" + Objects.requireNonNull(pattern));
@@ -250,7 +266,7 @@ public class BEWFiles {
          *
          * @param file File to check.
          */
-        void find(Path file) {
+        private void find(Path file) {
             Path name = Objects.requireNonNull(file).getFileName();
 
             if (name != null && matcher.matches(name))
@@ -281,13 +297,14 @@ public class BEWFiles {
         }
 
         /**
-         * Invoked for a file in a directory.<br>
-         * Invokes the pattern matching method on each file.
+         * {@inheritDoc }
+         * <p>
+         * Calls a pattern matching method on each file.
          *
-         * @param file  a reference to the file
-         * @param attrs the file's basic attributes
+         * @param file  {@inheritDoc }
+         * @param attrs {@inheritDoc }
          *
-         * @return the visit result
+         * @return {@inheritDoc }
          */
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
@@ -296,22 +313,25 @@ public class BEWFiles {
         }
 
         /**
-         * @inheritDoc
+         * {@inheritDoc }
+         *
+         * @param dir   {@inheritDoc }
+         * @param attrs {@inheritDoc }
+         *
+         * @return {@inheritDoc }
          */
         @Override
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
             return CONTINUE;
         }
 
-//        /**
-//         * Invoked for a file that could not be visited.
-//         * @param file a reference to the file.
-//         * @param exc the I/O exception that prevented the file from being visited.
-//         *
-//         * @return the visit result.
-//         */
         /**
-         * @inheritDoc
+         * {@inheritDoc }
+         *
+         * @param file {@inheritDoc }
+         * @param exc  {@inheritDoc }
+         *
+         * @return {@inheritDoc }
          */
         @Override
         public FileVisitResult visitFileFailed(Path file, IOException exc) {

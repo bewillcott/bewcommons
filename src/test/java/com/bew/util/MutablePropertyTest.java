@@ -35,16 +35,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class MutablePropertyTest {
 
-    private static final String[] EXPECTED = {
+    private static final String[] EXPECTED =
+    {
         null, "Adam", "Fred", "Greg", "Julie", "Mary", "Peter", "Wayne"
     };
 
     private static final int KEY = 0;
 
-    private static final String[][] PROPS = {
-        {"Greg", "Doctors"}, {"Mary", "Home"}, {"Julie", "Holidays"},
-        {"Wayne", "Driving"}, {"Peter", "Work"}, {"Adam", "Work"},
-        {null, "I'm IT!"}, {"Fred", "Home"}
+    private static final String[][] PROPS =
+    {
+        {
+            "Greg", "Doctors"
+        },
+        {
+            "Mary", "Home"
+        },
+        {
+            "Julie", "Holidays"
+        },
+        {
+            "Wayne", "Driving"
+        },
+        {
+            "Peter", "Work"
+        },
+        {
+            "Adam", "Work"
+        },
+        {
+            null, "I'm IT!"
+        },
+        {
+            "Fred", "Home"
+        }
     };
 
     private static final int VALUE = 1;
@@ -61,20 +84,26 @@ public class MutablePropertyTest {
         String value = "data";
         String comment = "Hello there!";
 
-        for (String[] prop : PROPS) {
+        for (String[] prop : PROPS)
+        {
             set.add(new MutableProperty<>(prop[KEY], prop[VALUE]));
         }
 
         assertEquals(EXPECTED.length, set.size());
 
-        for (MutableProperty<String> mp : set) {
-            assertTrue(() -> {
-                if (EXPECTED[ms.index] == null) {
+        for (MutableProperty<String> mp : set)
+        {
+            assertTrue(() ->
+            {
+                if (EXPECTED[ms.index] == null)
+                {
                     return mp.key == null;
-                } else {
+                } else
+                {
                     return EXPECTED[ms.index].equals(mp.key);
                 }
             });
+
             ms.index++;
         }
 
@@ -83,11 +112,13 @@ public class MutablePropertyTest {
         MutableProperty<String> mp2 = new MutableProperty<>(null, key, comment);
         MutableProperty<String> nullMP = null;
 
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () ->
+             {
                  mp.compareTo(nullMP);
              });
 
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             assertEquals(1, mp.compareTo(mp1));
             assertEquals(0, mp1.compareTo(mp2));
         });
@@ -146,16 +177,16 @@ public class MutablePropertyTest {
         MutableProperty<String> mp = new MutableProperty<>(key, value);
         MutableProperty<String> mp1 = new MutableProperty<>(key, value, comment);
 
-        Property<String, String> p = mp.getReadOnly();
-        Property<String, String> p1 = mp1.getReadOnly();
+        Property2<String, String> p = mp.getReadOnly();
+        Property2<String, String> p1 = mp1.getReadOnly();
 
-        assertTrue(key.equals(p.key));
-        assertTrue(value.equals(p.value));
-        assertFalse(comment.equals(p.comment));
+        assertTrue(key.equals(p.key()));
+        assertTrue(value.equals(p.value()));
+        assertFalse(comment.equals(p.comment()));
 
-        assertTrue(key.equals(p1.key));
-        assertTrue(value.equals(p1.value));
-        assertTrue(comment.equals(p1.comment));
+        assertTrue(key.equals(p1.key()));
+        assertTrue(value.equals(p1.value()));
+        assertTrue(comment.equals(p1.comment()));
     }
 
     /**

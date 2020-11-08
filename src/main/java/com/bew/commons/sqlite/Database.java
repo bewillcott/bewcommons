@@ -31,13 +31,16 @@ import static com.bew.commons.sqlite.Database.Status.ON;
  * This is intended to provide methods and members related to database
  * operations.
  *
- * @author Brad Willcott
+ * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ *
  * @since 1.0
+ * @version 1.0
  */
 public class Database implements AutoCloseable {
 
     private final Connection conn;
     private final ArrayList<Statement> stmts;
+
 
     {   // Initialize the ArrayList
         stmts = new ArrayList<>();
@@ -59,21 +62,25 @@ public class Database implements AutoCloseable {
         File file = path.toFile();
         fileExists = file.exists();
 
-        switch (dbOpen) {
+        switch (dbOpen)
+        {
             case CREATE:
-                if (fileExists) {
+                if (fileExists)
+                {
                     throw new IOException("Database(CREATE) File exists: " + path);
                 }
                 break;
 
             case OPEN:
-                if (!fileExists) {
+                if (!fileExists)
+                {
                     throw new IOException("Database(OPEN) File does not exist: " + path);
                 }
                 break;
 
             case REPLACE:
-                if (!fileExists) {
+                if (!fileExists)
+                {
                     throw new IOException("Database(REPLACE) File does not exist: " + path);
                 }
 
@@ -87,7 +94,8 @@ public class Database implements AutoCloseable {
 
     @Override
     public void close() throws SQLException {
-        for (Statement stmt : stmts) {
+        for (Statement stmt : stmts)
+        {
             stmt.close();
         }
         conn.close();
@@ -109,9 +117,11 @@ public class Database implements AutoCloseable {
     public boolean execute(String[] arraySQL) throws SQLException {
         String failedSQL = "";
 
-        try (Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement())
+        {
 
-            for (String sql : arraySQL) {
+            for (String sql : arraySQL)
+            {
                 failedSQL = sql;
                 st.execute(sql);
             }
@@ -135,20 +145,25 @@ public class Database implements AutoCloseable {
         stmts.add(st);
         st.closeOnCompletion();
 
-        if (stmts.size() % 5 == 0) {
+        if (stmts.size() % 5 == 0)
+        {
             int changed = 0;
 
-            for (int i = 0; i < stmts.size(); i++) {
+            for (int i = 0; i < stmts.size(); i++)
+            {
                 Statement stmt = stmts.get(i);
 
-                if (stmt.isClosed()) {
+                if (stmt.isClosed())
+                {
                     stmts.set(i, null);
                     changed++;
                 }
             }
 
-            if (changed > 0) {
-                for (int i = 0; i < changed; i++) {
+            if (changed > 0)
+            {
+                for (int i = 0; i < changed; i++)
+                {
                     stmts.remove(null);
                 }
             }
@@ -166,17 +181,20 @@ public class Database implements AutoCloseable {
      *                      set.
      */
     public final Status getForeignKeysConstraint() throws SQLException {
-        try (Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement())
+        {
 
             // Check status
             st.execute("PRAGMA foreign_keys");
             int val;
 
-            try (ResultSet rs = st.getResultSet()) {
+            try (ResultSet rs = st.getResultSet())
+            {
                 val = rs.getInt(1);
             }
 
-            switch (val) {
+            switch (val)
+            {
                 case 1:
                     System.out.println("'foreign_keys' constraint is set.");
                     return ON;
@@ -198,8 +216,10 @@ public class Database implements AutoCloseable {
      *                      set."
      */
     public final void setForeignKeysConstraint(Status setting) throws SQLException {
-        try (Statement st = conn.createStatement()) {
-            switch (setting) {
+        try (Statement st = conn.createStatement())
+        {
+            switch (setting)
+            {
                 case ON:
                     // Activate foreign keys constraint checking
                     st.execute("PRAGMA foreign_keys = on");
@@ -214,15 +234,19 @@ public class Database implements AutoCloseable {
             st.execute("PRAGMA foreign_keys");
             int val;
 
-            try (ResultSet rs = st.getResultSet()) {
+            try (ResultSet rs = st.getResultSet())
+            {
                 val = rs.getInt(1);
             }
 
-            if (val == 1 && setting == ON) {
+            if (val == 1 && setting == ON)
+            {
                 System.out.println("'foreign_keys' constraint is set.");
-            } else if (val == 0 && setting == OFF) {
+            } else if (val == 0 && setting == OFF)
+            {
                 System.out.println("'foreign_keys' constraint is unset.");
-            } else {
+            } else
+            {
                 throw new SQLException("'foreign_keys' constraint not being set.");
 
             }
