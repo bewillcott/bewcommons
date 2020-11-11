@@ -24,19 +24,16 @@ import static com.bew.commons.string.Strings.requireNonBlank;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Reflect class description:
- * <p>
  * The primary purpose of this class, is to assist in Unit Testing classes
- * with hidden members.</p>
+ * with hidden members.
  * <p>
  * By using reflection, testing can be done without
  * requiring the changing of the public interface of the class.
- * <p>
+ * <br>
  * In addition, reflection allows the testing of the internal code to help
  * maintain required end results.
- * </p>
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0.5
  * @version 1.0.7

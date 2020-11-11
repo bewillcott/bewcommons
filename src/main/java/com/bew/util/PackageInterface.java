@@ -22,7 +22,7 @@ import java.net.URL;
 
 /**
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -105,17 +105,14 @@ public interface PackageInterface {
      * <dt><i>SpecificationVersion:</i>
      * <dd><i>Digits RefinedVersion<sub>opt</sub></i>
      * <p>
-     * </p>
      * <dt><i>RefinedVersion:</i>
      * <dd>{@code .}<i>Digits</i>
      * <dd>{@code .}<i>Digits RefinedVersion</i>
      * <p>
-     * </p>
      * <dt><i>Digits:</i>
      * <dd><i>Digit</i>
      * <dd><i>Digits</i>
      * <p>
-     * </p>
      * <dt><i>Digit:</i>
      * <dd>any character for which {@link Character#isDigit} returns {@code true},
      * e.g. 0, 1, 2, ...

@@ -501,11 +501,11 @@ public class IniDocumentTest {
                 INSTANCE.setString(inparr[SECTION], inparr[KEY], inparr[VALUE]);
             });
         }
-        List<com.bew.util.Property2<String, Object>> result = INSTANCE.getSection(TEST_SECTION);
+        List<com.bew.util.Property<String, Object>> result = INSTANCE.getSection(TEST_SECTION);
         assertNotNull(result);
         assertTrue(result.size() == TEST_SIZE);
-        assertTrue(result.get(TEST_INDEX).key().equals(TEST_KEY)
-                   && result.get(TEST_INDEX).value().equals(TEST_VALUE));
+        assertTrue(result.get(TEST_INDEX).key.equals(TEST_KEY)
+                   && result.get(TEST_INDEX).value.equals(TEST_VALUE));
 
         assertDoesNotThrow(() ->
         {

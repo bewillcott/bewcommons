@@ -26,7 +26,7 @@ package com.bew.commons;
  * Version 1.0.6:<br>
  * Now extends {@link RuntimeException}, instead of {@link Exception}.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0.6

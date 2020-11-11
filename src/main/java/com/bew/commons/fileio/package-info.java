@@ -22,6 +22,9 @@
  * These classes provide functionality to allow reading and modification of
  * their contents, and possibly storing that data back out to a file.
  *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
  * @since 1.0
+ * @version 1.0
  */
 package com.bew.commons.fileio;

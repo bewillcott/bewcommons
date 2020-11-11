@@ -41,7 +41,7 @@ import java.util.Objects;
  *
  * @param <V> Object type for {@code value}.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -96,73 +96,54 @@ public class MutableProperty<V> implements Serializable, Comparable<MutablePrope
 
     @Override
     public int compareTo(MutableProperty<V> other) throws NullPointerException {
-        if (other == null)
+        int rtn = 0;
+
+        if (!equals(Objects.requireNonNull(other)))
         {
-            throw new NullPointerException("Null parameter.");
+            if (this.key == null)
+            {
+                if (other.key != null)
+                {
+                    return -1;
+                }
+            } else
+            {
+                if (other.key == null)
+                {
+                    return 1;
+                } else
+                {
+                    return this.key.compareTo(other.key);
+                }
+            }
         }
 
-        if (this.key == null)
-        {
-            if (other.key == null)
-            {
-                return 0;
-            } else
-            {
-                return -1;
-            }
-        } else
-        {
-            if (other.key == null)
-            {
-                return 1;
-            } else
-            {
-                return this.key.compareTo(other.key);
-            }
-        }
+        return rtn;
     }
 
     @Override
-    public boolean equals(Object other) {
-        return false;
-    }
-
-    public boolean equals(String other) {
-        if (this.key == null)
-        {
-            return other == null;
-        } else if (other == null)
-        {
-            return false;
-        } else
-        {
-            return this.key.equals(other);
-        }
-    }
-
-    public boolean equals(MutableProperty<V> other) {
-        if (other == null)
-        {
-            return false;
-        } else if (this.key == null)
-        {
-            return other.key == null;
-        } else
-        {
-            return this.key.equals(other.key);
-        }
-
+    public boolean equals(Object obj) {
+        return this == obj
+               || obj == null
+                  && this.key == null
+               || obj != null
+                  && obj instanceof String strValue
+                  && Objects.equals(this.key, strValue)
+               || obj != null
+                  && obj instanceof MutableProperty<?> other
+                  && checkClasses(this.value, other.value)
+                  && Objects.equals(this.key, other.key);
     }
 
     /**
      * Get a copy of this property that is NOT thread safe. Further, if either
-     * the {@code value} or {@code comment} is changed, the readonly copy will
+     * the {@code value} or {@code comment} is changed, the read-only copy will
      * NOT reflect it and neither will it throw any exception.
      *
      * @return Read only copy.
      */
-    public Property2<String, V> getReadOnly() {
-        return new Property2<>(key, value, comment);
+    public Property<String, V> getReadOnly() {
+        return new Property<>(key, value, comment);
     }
 
     @Override
@@ -176,5 +157,21 @@ public class MutableProperty<V> implements Serializable, Comparable<MutablePrope
     public String toString() {
         return "MutableProperty { key=" + key + ", value=" + value
                + ", comment=" + comment + " }";
+    }
+
+    /**
+     * Called by {@link #equals(java.lang.Object) equals(Object obj)} to check
+     * the runtime class of two objects.
+     * <p>
+     * This is a work-around the type erasure that happens at runtime, and also
+     * to allow primitives be compared through auto-boxing.
+     *
+     * @param aObject Object a.
+     * @param bObject Object b.
+     *
+     * @return {@code true} if they are of the same class type, {@code false} otherwise.
+     */
+    private boolean checkClasses(Object aObject, Object bObject) {
+        return aObject.getClass() == bObject.getClass();
     }
 }

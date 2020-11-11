@@ -27,17 +27,31 @@ import java.io.Serializable;
  * @param <K> Object type for {@code key}.
  * @param <V> Object type for {@code value}.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
  */
 public class Property<K, V> implements Serializable {
 
+    /**
+     * @serial serial
+     */
     private static final long serialVersionUID = -3214267512383191249L;
 
+    /**
+     * The property's key.
+     */
     public final K key;
+
+    /**
+     * The property's value.
+     */
     public final V value;
+
+    /**
+     * The property's comment.
+     */
     public final String comment;
 
     /**

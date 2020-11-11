@@ -31,7 +31,7 @@ import static com.bew.commons.sqlite.Database.Status.ON;
  * This is intended to provide methods and members related to database
  * operations.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -117,7 +117,7 @@ public class Database implements AutoCloseable {
     public boolean execute(String[] arraySQL) throws SQLException {
         String failedSQL = "";
 
-        try (Statement st = conn.createStatement())
+        try ( Statement st = conn.createStatement())
         {
 
             for (String sql : arraySQL)
@@ -181,14 +181,14 @@ public class Database implements AutoCloseable {
      *                      set.
      */
     public final Status getForeignKeysConstraint() throws SQLException {
-        try (Statement st = conn.createStatement())
+        try ( Statement st = conn.createStatement())
         {
 
             // Check status
             st.execute("PRAGMA foreign_keys");
             int val;
 
-            try (ResultSet rs = st.getResultSet())
+            try ( ResultSet rs = st.getResultSet())
             {
                 val = rs.getInt(1);
             }
@@ -216,7 +216,7 @@ public class Database implements AutoCloseable {
      *                      set."
      */
     public final void setForeignKeysConstraint(Status setting) throws SQLException {
-        try (Statement st = conn.createStatement())
+        try ( Statement st = conn.createStatement())
         {
             switch (setting)
             {
@@ -234,7 +234,7 @@ public class Database implements AutoCloseable {
             st.execute("PRAGMA foreign_keys");
             int val;
 
-            try (ResultSet rs = st.getResultSet())
+            try ( ResultSet rs = st.getResultSet())
             {
                 val = rs.getInt(1);
             }

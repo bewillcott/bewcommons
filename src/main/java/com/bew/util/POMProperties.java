@@ -31,7 +31,7 @@ import java.util.Properties;
  * System.out.println(pom.title):
  * </code></pre>
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -95,6 +95,11 @@ public final class POMProperties {
                 .append("  groupId: ").append(groupId).append("\n").toString();
     }
 
+    /**
+     * For testing only.
+     *
+     * @param args Runtime parameters.
+     */
     public static void main(String[] args) {
         System.out.println(POMProperties.INSTANCE);
     }

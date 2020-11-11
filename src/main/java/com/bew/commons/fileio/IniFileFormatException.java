@@ -22,7 +22,7 @@ package com.bew.commons.fileio;
  * When the format of the <u>ini</u> file does not conform to what this
  * class expects, this exception will be thrown.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0.5

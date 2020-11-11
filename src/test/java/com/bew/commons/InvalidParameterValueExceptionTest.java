@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  *
- * @author Bradley Willcott
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  */
 public class InvalidParameterValueExceptionTest {
 

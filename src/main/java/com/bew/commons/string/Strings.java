@@ -24,7 +24,7 @@ import java.util.Objects;
  * Strings class description.
  * Class contains some helper methods.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0.6
  * @version 1.0.7
@@ -99,13 +99,12 @@ public class Strings {
      * <dd>The string's {@code length} is {@code 0}.</dd>
      * </dl>
      *
-     *
      * @param str The string to check for emptiness.
      *
      * @return {@code str} if not <i>empty</i>.
      *
-     * @throws NullPointerException if {@code str} is <i>null</i>.
-     * @throws EmptyStringException if {@code str} is <i>empty</i>.
+     * @throws NullPointerException     if {@code str} is <i>null</i>.
+     * @throws IllegalArgumentException if {@code str} is <i>empty</i>.
      */
     public static String requireNonEmpty(String str) {
         if (Objects.requireNonNull(str).isEmpty())

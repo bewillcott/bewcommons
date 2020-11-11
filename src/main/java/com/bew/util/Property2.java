@@ -36,14 +36,13 @@ public record Property2<K, V>(K key, V value, String comment)
 
     private static final long serialVersionUID = 1604618868046L;
 
+    /**
+     * Convenience constructor.
+     *
+     * @param key   Set key.
+     * @param value Set value.
+     */
     public Property2(K key, V value) {
         this(key, value, null);
-    }
-
-    public static void main(String[] args) {
-        Property2<String, String> prop = new Property2<>("Fred", "Smith");
-        System.out.println("prop: " + prop);
-        prop = new Property2<>("Mary", "Smith", "Had a little lamby...");
-        System.out.println("prop: " + prop);
     }
 }

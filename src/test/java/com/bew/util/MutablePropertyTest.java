@@ -177,16 +177,16 @@ public class MutablePropertyTest {
         MutableProperty<String> mp = new MutableProperty<>(key, value);
         MutableProperty<String> mp1 = new MutableProperty<>(key, value, comment);
 
-        Property2<String, String> p = mp.getReadOnly();
-        Property2<String, String> p1 = mp1.getReadOnly();
+        Property<String, String> p = mp.getReadOnly();
+        Property<String, String> p1 = mp1.getReadOnly();
 
-        assertTrue(key.equals(p.key()));
-        assertTrue(value.equals(p.value()));
-        assertFalse(comment.equals(p.comment()));
+        assertTrue(key.equals(p.key));
+        assertTrue(value.equals(p.value));
+        assertFalse(comment.equals(p.comment));
 
-        assertTrue(key.equals(p1.key()));
-        assertTrue(value.equals(p1.value()));
-        assertTrue(comment.equals(p1.comment()));
+        assertTrue(key.equals(p1.key));
+        assertTrue(value.equals(p1.value));
+        assertTrue(comment.equals(p1.comment));
     }
 
     /**

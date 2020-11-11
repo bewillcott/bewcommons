@@ -21,7 +21,7 @@ package com.bew.commons.fileio;
 import com.bew.commons.InvalidParameterValueException;
 import com.bew.commons.InvalidProgramStateException;
 import com.bew.util.MutableProperty;
-import com.bew.util.Property2;
+import com.bew.util.Property;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -132,26 +132,27 @@ import static java.nio.file.StandardOpenOption.WRITE;
  * {@link IniDocument}, and then all of its members and methods.
  * </p>
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0.5
  */
 public class IniFile {
 
-//    /**
-//     * To be used for testing purposes <i>only</i>.
-//     *
-//     * @param args Not used.
-//     *
-//     * @since 1.0
-//     */
+    /**
+     * To be used for testing purposes <i>only</i>.
+     *
+     * @param args Not used.
+     *
+     * @throws FileNotFoundException If test files not found.
+     * @since 1.0
+     */
     public static void main(String[] args) throws FileNotFoundException {
         final URL fileUrl = IniFile.class.getResource("/Test.ini");
-        final URL fileUrl_orig = IniFile.class.getResource("/Test-orig.ini");
+        final URL fileUrlOrig = IniFile.class.getResource("/Test-orig.ini");
 
         Path path = null;
-        Path path_orig = null;
+        Path pathOrig = null;
 
         if (fileUrl != null)
         {
@@ -161,9 +162,9 @@ public class IniFile {
             throw new FileNotFoundException("/Test.ini");
         }
 
-        if (fileUrl_orig != null)
+        if (fileUrlOrig != null)
         {
-            path_orig = FileSystems.getDefault().getPath(fileUrl_orig.getPath());
+            pathOrig = FileSystems.getDefault().getPath(fileUrlOrig.getPath());
         } else
         {
             throw new FileNotFoundException("/Test-orig.ini");
@@ -222,7 +223,7 @@ public class IniFile {
         try
         {
 
-            Files.copy(path_orig, path, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(pathOrig, path, StandardCopyOption.REPLACE_EXISTING);
             (ini = new IniFile(path)).loadFile();
 
             for (String[] inparr : INPUT)
@@ -238,19 +239,19 @@ public class IniFile {
             ini = new IniFile(path);
 
             // Display all employees details
-            for (Property2<String, Object> employee : ini.iniDoc.getSection("Employees"))
+            for (Property<String, Object> employee : ini.iniDoc.getSection("Employees"))
             {
                 System.out.println(
-                        "Id = " + employee.key()
-                        + " | Name = " + employee.value()
-                        + " | Comment=" + employee.comment()
+                        "Id = " + employee.key
+                        + " | Name = " + employee.value
+                        + " | Comment=" + employee.comment
                 );
 
-                for (Property2<String, Object> empDetails : ini.iniDoc.getSection((String) employee.value()))
+                for (Property<String, Object> empDetails : ini.iniDoc.getSection((String) employee.value))
                 {
-                    System.out.println((empDetails.comment() != null ? "\t" + empDetails.comment() + "\n" : "")
-                                       + "\t" + empDetails.key() + ": "
-                                       + empDetails.value()
+                    System.out.println((empDetails.comment != null ? "\t" + empDetails.comment + "\n" : "")
+                                       + "\t" + empDetails.key + ": "
+                                       + empDetails.value
                     );
                 }
                 System.out.println();
@@ -323,6 +324,11 @@ public class IniFile {
         }
     }
 
+    /**
+     * Default constructor.
+     *
+     * @since 1.0
+     */
     public IniFile() {
         iniDoc = new IniDocument();
         path = null;
@@ -355,7 +361,7 @@ public class IniFile {
     public IniFile loadFile()
             throws IOException, IniFileFormatException, InvalidParameterValueException {
 
-        try (BufferedReader in = Files.newBufferedReader(path))
+        try ( BufferedReader in = Files.newBufferedReader(path))
         {
             fileIsLoaded = parseINI(in);
         }
@@ -369,18 +375,16 @@ public class IniFile {
      *
      * @return this instance for chaining.
      *
-     * @throws IOException
-     * @throws IniFileFormatException
-     * @throws InvalidParameterValueException
-     * @throws InvalidProgramStateException
+     * @throws IOException            if an I/O error occurs opening the file.
+     * @throws IniFileFormatException If the format of the supplied ini file does
+     *                                not conform to the general standard.
      */
     public IniFile mergeFile(Path file)
-            throws IOException, IniFileFormatException,
-                   InvalidParameterValueException, InvalidProgramStateException {
+            throws IOException, IniFileFormatException {
 
         if (fileIsLoaded)
         {
-            try (BufferedReader in = Files.newBufferedReader(file))
+            try ( BufferedReader in = Files.newBufferedReader(file))
             {
                 parseINI(in);
             }
@@ -420,7 +424,7 @@ public class IniFile {
      * @throws IOException File i/o problem.
      */
     public IniFile saveFileAs(Path newFile) throws IOException {
-        try (BufferedWriter out = Files.newBufferedWriter(newFile, CREATE, TRUNCATE_EXISTING, WRITE))
+        try ( BufferedWriter out = Files.newBufferedWriter(newFile, CREATE, TRUNCATE_EXISTING, WRITE))
         {
             storeINI(out);
         }
@@ -443,6 +447,13 @@ public class IniFile {
         return sb.toString();
     }
 
+    /**
+     *
+     * @param key
+     * @param value
+     *
+     * @return
+     */
     private String join(String key, String value) {
         String separator = paddedEquals ? " = " : "=";
         return value.isEmpty()
@@ -450,8 +461,17 @@ public class IniFile {
                : key + separator + value;
     }
 
+    /**
+     * Parses the contents of the <i>ini</i> file.
+     *
+     * @param reader The ini file to be parsed.
+     *
+     * @throws IOException            If an I/O error occurs.
+     * @throws IniFileFormatException If the format of the supplied ini file does
+     *                                not conform to the general standard.
+     */
     private boolean parseINI(BufferedReader reader)
-            throws IOException, IniFileFormatException, InvalidParameterValueException {
+            throws IOException, IniFileFormatException {
         Pattern p = Pattern.compile(IniDocument.INI_PATTERN);
         String line = "";
         String currentSection = null;
@@ -504,6 +524,7 @@ public class IniFile {
                 }
             }
         }
+
         return true;
     }
 

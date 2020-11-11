@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  * {@link IniFile}.
  * </p>
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0.5
@@ -244,7 +244,7 @@ public class IniDocument {
      * Returns the associated {@code comment} for this {@code key} from the
      * global section, if iOtherwise {@code null}.tde null}.
      *
-     * @param key
+     * @param key The key whose comment we are after.
      *
      * @return The comment or {@code null}.
      *
@@ -397,12 +397,12 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public List<com.bew.util.Property2<String, Object>> getSection(String section) {
+    public List<com.bew.util.Property<String, Object>> getSection(String section) {
         int sectionIdx = indexOfSection(section);
 
         if (sectionIdx > -1)
         {
-            ArrayList<com.bew.util.Property2<String, Object>> rtnList = new ArrayList<>();
+            ArrayList<com.bew.util.Property<String, Object>> rtnList = new ArrayList<>();
             entries.get(sectionIdx).value.forEach(mp -> rtnList.add(mp.getReadOnly()));
 
             return rtnList;
@@ -428,7 +428,7 @@ public class IniDocument {
      * <p>
      * Will also return {@code null} if there is no section by that name.
      *
-     * @param section
+     * @param section Name of the section.
      *
      * @return The comment if set, otherwise {@code null}.
      *
@@ -447,17 +447,14 @@ public class IniDocument {
     }
 
     /**
-     * Returns list of all sections.
+     * Get list of all sections.
      *
-     * @return
+     * @return list of all sections.
      */
     public List<String> getSections() {
         ArrayList<String> rtnList = new ArrayList<>();
 
-        entries.forEach((section) ->
-        {
-            rtnList.add(section.key);
-        });
+        entries.forEach(section -> rtnList.add(section.key));
 
         return rtnList;
     }

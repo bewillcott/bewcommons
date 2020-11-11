@@ -23,7 +23,7 @@ package com.bew.util;
  *
  * @param <V> Type for {@code value}.
  *
- * @author Bradley Willcott &lt;bw.opensource@yahoo.com&gt;
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -32,9 +32,24 @@ package com.bew.util;
  */
 public interface ImmutablePropertyInterface<V> {
 
+    /**
+     * Get property {@code key}.
+     *
+     * @return {@code key} contents.
+     */
     public String getKey();
 
+    /**
+     * Get the property {@code value}.
+     *
+     * @return {@code value} contents.
+     */
     public V getValue();
 
+    /**
+     * Get property {@code comment}.
+     *
+     * @return {@code comment} contents.
+     */
     public String getComment();
 }

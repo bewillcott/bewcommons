@@ -304,21 +304,20 @@ public class IniFileTest {
                 .stream()
                 .map(employee ->
                 {
-                    sb.append("Id = ").append(employee.key()).append(" | Name = ")
-                            .append(employee.value()).append(" | Comment=")
-                            .append(employee.comment()).append("\n");
+                    sb.append("Id = ").append(employee.key).append(" | Name = ")
+                            .append(employee.value).append(" | Comment=")
+                            .append(employee.comment).append("\n");
                     return employee;
                 })
                 .map(employee ->
                 {
-                    ms.ini.iniDoc.getSection((String) employee.value())
+                    ms.ini.iniDoc.getSection((String) employee.value)
                             .forEach(empDetails ->
                             {
-                                sb.append(empDetails
-                                        .comment() != null ? "\t"
-                                                             + empDetails.comment() + "\n" : "")
-                                        .append("\t").append(empDetails.key())
-                                        .append(": ").append(empDetails.value())
+                                sb.append(empDetails.comment != null ? "\t"
+                                                                       + empDetails.comment + "\n" : "")
+                                        .append("\t").append(empDetails.key)
+                                        .append(": ").append(empDetails.value)
                                         .append("\n");
                             });
                     return employee;

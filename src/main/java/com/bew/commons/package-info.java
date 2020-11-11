@@ -19,6 +19,9 @@
 /**
  * To provide classes common to the whole package, such as Exception classes.
  *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
  * @since 1.0
+ * @version 1.0
  */
 package com.bew.commons;
