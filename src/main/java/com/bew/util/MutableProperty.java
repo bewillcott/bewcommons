@@ -45,7 +45,10 @@ import java.util.Objects;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated To be removed before next commit.
  */
+@Deprecated
 public class MutableProperty<V> implements Serializable, Comparable<MutableProperty<V>> {
 
     private static final long serialVersionUID = 3791415885940633406L;

@@ -18,24 +18,34 @@
  */
 package com.bew.util;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.Serializable;
 
 /**
+ * Property2 record description.
  *
- * @author Bradley Willcott
+ * @param <K> Object type for {@code key}.
+ * @param <V> Object type for {@code value}.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 1.0.6
+ * @version 1.0.6
+ *
+ * @deprecated To be removed before next commit.
  */
-public class Property2Test {
+@Deprecated
+        public record PropertyRecord<K, V>(K key, V value, String comment)
+        implements Serializable {
+
+    private static final long serialVersionUID = 1604618868046L;
 
     /**
-     * Test of toString method, of class Property.
+     * Convenience constructor.
+     *
+     * @param key   Set key.
+     * @param value Set value.
      */
-    @Test
-    public void testToString() {
-        System.out.println("testToString");
-
-//        Property2<String, String> p = new Property2<>("Sex", "Female");
-//        assertTrue(p.toString().startsWith("Property2"));
+    public PropertyRecord(K key, V value) {
+        this(key, value, null);
     }
 }

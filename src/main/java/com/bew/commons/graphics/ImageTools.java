@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bew.graphics;
+package com.bew.commons.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -39,8 +39,8 @@ import javax.swing.ImageIcon;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 1.0.20
+ * @version 1.0.20
  */
 public class ImageTools {
 
@@ -55,9 +55,8 @@ public class ImageTools {
      * <p>
      * Example:<br>
      * <pre><code>
-     *     ImageIcon icon = createImageIcon(this, "images/MyIcon.png", "My favourite picture");
+     *     ImageIcon icon = createImageIcon(MyClass.class, "images/MyIcon.png", "My favourite picture");
      * </code></pre>
-     * </p>
      * Method code sourced from :
      * <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/IconDemoProject/src/components/IconDemoApp.java"
      * target="_blank">Java Tutorials Code Sample – IconDemoApp.java</a>
@@ -72,8 +71,8 @@ public class ImageTools {
      *
      * @return new icon, or {@code null} if not found.
      */
-    public static <T> ImageIcon createImageIcon(T t, String path, String description) {
-        URL imgURL = t.getClass().getResource(path);
+    public static <T> ImageIcon createImageIcon(Class<T> t, String path, String description) {
+        URL imgURL = t.getResource(path);
 
         if (imgURL != null)
         {
@@ -89,9 +88,7 @@ public class ImageTools {
      * Resizes an image using a Graphics2D object backed by a BufferedImage.
      * <p>
      * Method code sourced from:
-     * <a href="https://docs.oracle.com/javase/tutorial/displayCode.html
-     * ?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components
-     * /IconDemoProject/src/components/IconDemoApp.java"
+     * <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/IconDemoProject/src/components/IconDemoApp.java"
      * target="_blank">Java Tutorials Code Sample – IconDemoApp.java</a>
      * </p><p>
      * This code has been modified to incorporate code from:
@@ -146,9 +143,8 @@ public class ImageTools {
      * The most important thing is that this is the fastest way to do it.
      * <p>
      * Method code and the above comments were sourced from:
-     * <a href="https://stackoverflow.com/questions/3967731/
-     * how-to-improve-the-performance-of-g-drawimage-method-for-resizing-images
-     * /11371387#11371387" target="_blank">
+     * <a href="https://stackoverflow.com/questions/3967731/how-to-improve-the-performance-of-g-drawimage-method-for-resizing-images/11371387#11371387"
+     * target="_blank">
      * Stack Overflow - How to improve the performance of g.drawImage() method for
      * resizing images</a>
      *

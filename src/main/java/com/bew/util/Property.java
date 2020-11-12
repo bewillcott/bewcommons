@@ -31,7 +31,10 @@ import java.io.Serializable;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated To be removed before next commit.
  */
+@Deprecated
 public class Property<K, V> implements Serializable {
 
     /**

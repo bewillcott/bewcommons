@@ -16,26 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bew.util;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
+ * Domain classes used to relation to Graphics, images, icons, etc.
+ * <p>
+ * These classes contain tools for the manipulation of images, etc.
+ * </p>
  *
- * @author Bradley Willcott
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 1.0.20
+ * @version 1.0.20
  */
-public class Property2Test {
-
-    /**
-     * Test of toString method, of class Property.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("testToString");
-
-//        Property2<String, String> p = new Property2<>("Sex", "Female");
-//        assertTrue(p.toString().startsWith("Property2"));
-    }
-}
+package com.bew.commons.graphics;

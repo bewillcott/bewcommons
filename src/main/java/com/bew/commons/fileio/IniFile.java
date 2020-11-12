@@ -20,8 +20,8 @@ package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
 import com.bew.commons.InvalidProgramStateException;
-import com.bew.util.MutableProperty;
-import com.bew.util.Property;
+import com.bew.commons.property.ImmutableIniFileProperty;
+import com.bew.commons.property.IniFileProperty;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -135,7 +135,7 @@ import static java.nio.file.StandardOpenOption.WRITE;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
- * @version 1.0.5
+ * @version 1.0.20
  */
 public class IniFile {
 
@@ -239,19 +239,19 @@ public class IniFile {
             ini = new IniFile(path);
 
             // Display all employees details
-            for (Property<String, Object> employee : ini.iniDoc.getSection("Employees"))
+            for (ImmutableIniFileProperty<Object> employee : ini.iniDoc.getSection("Employees"))
             {
                 System.out.println(
-                        "Id = " + employee.key
-                        + " | Name = " + employee.value
-                        + " | Comment=" + employee.comment
+                        "Id = " + employee.key()
+                        + " | Name = " + employee.value()
+                        + " | Comment=" + employee.comment()
                 );
 
-                for (Property<String, Object> empDetails : ini.iniDoc.getSection((String) employee.value))
+                for (ImmutableIniFileProperty<Object> empDetails : ini.iniDoc.getSection((String) employee.value()))
                 {
-                    System.out.println((empDetails.comment != null ? "\t" + empDetails.comment + "\n" : "")
-                                       + "\t" + empDetails.key + ": "
-                                       + empDetails.value
+                    System.out.println((empDetails.comment() != null ? "\t" + empDetails.comment() + "\n" : "")
+                                       + "\t" + empDetails.key() + ": "
+                                       + empDetails.value()
                     );
                 }
                 System.out.println();
@@ -530,31 +530,31 @@ public class IniFile {
 
     private void storeINI(BufferedWriter bw) throws IOException {
 
-        for (MutableProperty<ArrayList<MutableProperty<Object>>> section : iniDoc.entries)
+        for (IniFileProperty<ArrayList<IniFileProperty<Object>>> section : iniDoc.entries)
         {
-            if (section.key != null)
+            if (section.key() != null)
             {
-                if (section.comment != null)
+                if (section.comment() != null)
                 {
-                    bw.write("\n" + section.comment + "\n[" + section.key + "]\n");
+                    bw.write("\n" + section.comment() + "\n[" + section.key() + "]\n");
                 } else
                 {
-                    bw.write("\n[" + section.key + "]\n");
+                    bw.write("\n[" + section.key() + "]\n");
                 }
             }
 
-            for (MutableProperty<Object> key : section.value)
+            for (IniFileProperty<Object> key : section.value())
             {
                 // Do we have a comment?
-                if (key.key.startsWith("#") || key.key.startsWith(";"))
+                if (key.key().startsWith("#") || key.key().startsWith(";"))
                 {
-                    bw.write(key.comment + "\n");
-                } else if (key.comment != null)
+                    bw.write(key.comment() + "\n");
+                } else if (key.comment() != null)
                 {
-                    bw.write(key.comment + "\n" + join(key.key, (String) key.value) + "\n");
+                    bw.write(key.comment() + "\n" + join(key.key(), (String) key.value()) + "\n");
                 } else
                 {
-                    bw.write(join(key.key, (String) key.value) + "\n");
+                    bw.write(join(key.key(), (String) key.value()) + "\n");
                 }
             }
         }

@@ -18,24 +18,32 @@
  */
 package com.bew.util;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
+ * Provides a way of updating the members of the property.
  *
- * @author Bradley Willcott
+ * @param <V> Type for {@code value}.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @deprecated To be removed before next commit.
  */
-public class Property2Test {
+@Deprecated
+public interface IMutableProperty<V> extends IImmutableProperty<V> {
 
     /**
-     * Test of toString method, of class Property.
+     * Set the property {@code value}.
+     *
+     * @param value to be set.
      */
-    @Test
-    public void testToString() {
-        System.out.println("testToString");
+    public void setValue(V value);
 
-//        Property2<String, String> p = new Property2<>("Sex", "Female");
-//        assertTrue(p.toString().startsWith("Property2"));
-    }
+    /**
+     * Set property {@code comment}.
+     *
+     * @param comment to be set.
+     */
+    public void setComment(String comment);
 }
