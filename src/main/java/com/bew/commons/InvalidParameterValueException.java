@@ -30,7 +30,10 @@ package com.bew.commons;
  *
  * @since 1.0
  * @version 1.0.6
+ *
+ * @deprecated Moved out to project: BEWCommon.
  */
+@Deprecated
 public class InvalidParameterValueException extends RuntimeException {
 
     private static final long serialVersionUID = 947167888439966970L;

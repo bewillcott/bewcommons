@@ -27,7 +27,11 @@ import java.io.IOException;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWFiles.
  */
+@Deprecated
+
 public class FileAlreadyLoadedException extends IOException {
 
     private static final long serialVersionUID = 2345633335946985039L;

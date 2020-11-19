@@ -41,7 +41,10 @@ import javax.swing.ImageIcon;
  *
  * @since 1.0.20
  * @version 1.0.20
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public class ImageTools {
 
     /**
@@ -62,10 +65,10 @@ public class ImageTools {
      * target="_blank">Java Tutorials Code Sample – IconDemoApp.java</a>
      * <p>
      * Modified the code to add the new first parameter: {@code t}. This allows the code to be
-     * further modified into a static method of an external library class.
+     * further modified, making it into a {@code static} method of an external library class.
      *
-     * @param <T>         class of calling instance.
-     * @param t           Usually should be: {@code this}
+     * @param <T>         class type of the calling instance.
+     * @param t           Usually should be the calling class, such as: {@code MyClass.class}.
      * @param path        Image file path.
      * @param description of icon.
      *
@@ -90,22 +93,29 @@ public class ImageTools {
      * Method code sourced from:
      * <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/IconDemoProject/src/components/IconDemoApp.java"
      * target="_blank">Java Tutorials Code Sample – IconDemoApp.java</a>
-     * </p><p>
+     * <p>
      * This code has been modified to incorporate code from:
      * <a href="https://exceptionshub.com/java-image-resize-maintain-aspect-ratio.html"
      * target="_blank">ExceptionsHub.com - Java image resize, maintain aspect ratio</a><br>
      * Added preservation of aspect ratio, and changed the parameter names for {@code w}
      * and {@code h}.
-     * </p>
+     * <p>
+     * Further modification ideas came from:
+     * <a href="https://stackoverflow.com/questions/244164/how-can-i-resize-an-image-using-java"
+     * target="_blank">How can I resize an image using Java?</a> and
+     * <a href="https://mkyong.com/java/how-to-resize-an-image-in-java/" target="_blank">
+     * How to resize an image in Java ?</a><br>
+     * Added Alpha preservation and additional {@code RenderingHints}.
      *
      * @param srcImg        source image to scale
      * @param scaledWidth   desired width
      * @param scaledHeight  desired height
+     * @param preserveAlpha Preserve Alpha - image with 8-bit RGBA color components
      * @param preserveRatio Preserve aspect ratio?
      *
      * @return - the new resized image
      */
-    public static Image getScaledImage(Image srcImg, int scaledWidth, int scaledHeight, boolean preserveRatio) {
+    public static Image getScaledImage(Image srcImg, int scaledWidth, int scaledHeight, boolean preserveAlpha, boolean preserveRatio) {
         if (preserveRatio)
         {
             double imageHeight = srcImg.getHeight(null);
@@ -120,10 +130,13 @@ public class ImageTools {
             }
         }
 
-        BufferedImage resizedImg = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage resizedImg = new BufferedImage(scaledWidth, scaledHeight,
+                                                     preserveAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2 = resizedImg.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.drawImage(srcImg, 0, 0, scaledWidth, scaledHeight, null);
         g2.dispose();
 

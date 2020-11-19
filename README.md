@@ -2,12 +2,7 @@
 This library contains various utility classes used across multiple projects.
 
 ## Status
-This is a work in progress. It is here primarily to be available for use with
-[Markdownj CLI][mjc].  You will however, find a number of classes that may be of some
-use to you.
+This is a work is closed.  All the classes have been moved to smaller more specialized
+libraries.  Check the class comments to find which one went where.
 
-## Releases
-There is an **Interim Release**: [1.0.2-SNAPSHOT][rel].
-
-[mjc]:https://github.com/bewillcott/markdownj-cli
-[rel]:https://github.com/bewillcott/bewcommons/releases
+Bradley Willcott (20/11/2020).

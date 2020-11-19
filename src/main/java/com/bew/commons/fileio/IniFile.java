@@ -20,8 +20,8 @@ package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
 import com.bew.commons.InvalidProgramStateException;
-import com.bew.commons.property.ImmutableIniFileProperty;
-import com.bew.commons.property.IniFileProperty;
+import com.bew.commons.property.IniProperty;
+import com.bew.commons.property.MutableIniProperty;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -136,7 +136,10 @@ import static java.nio.file.StandardOpenOption.WRITE;
  *
  * @since 1.0
  * @version 1.0.20
+ *
+ * @deprecated Moved out to project: BEWFiles.
  */
+@Deprecated
 public class IniFile {
 
     /**
@@ -239,7 +242,7 @@ public class IniFile {
             ini = new IniFile(path);
 
             // Display all employees details
-            for (ImmutableIniFileProperty<Object> employee : ini.iniDoc.getSection("Employees"))
+            for (IniProperty<Object> employee : ini.iniDoc.getSection("Employees"))
             {
                 System.out.println(
                         "Id = " + employee.key()
@@ -247,7 +250,7 @@ public class IniFile {
                         + " | Comment=" + employee.comment()
                 );
 
-                for (ImmutableIniFileProperty<Object> empDetails : ini.iniDoc.getSection((String) employee.value()))
+                for (IniProperty<Object> empDetails : ini.iniDoc.getSection((String) employee.value()))
                 {
                     System.out.println((empDetails.comment() != null ? "\t" + empDetails.comment() + "\n" : "")
                                        + "\t" + empDetails.key() + ": "
@@ -530,7 +533,7 @@ public class IniFile {
 
     private void storeINI(BufferedWriter bw) throws IOException {
 
-        for (IniFileProperty<ArrayList<IniFileProperty<Object>>> section : iniDoc.entries)
+        for (MutableIniProperty<ArrayList<MutableIniProperty<Object>>> section : iniDoc.entries)
         {
             if (section.key() != null)
             {
@@ -543,7 +546,7 @@ public class IniFile {
                 }
             }
 
-            for (IniFileProperty<Object> key : section.value())
+            for (MutableIniProperty<Object> key : section.value())
             {
                 // Do we have a comment?
                 if (key.key().startsWith("#") || key.key().startsWith(";"))

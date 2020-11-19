@@ -35,7 +35,10 @@ import static com.bew.commons.sqlite.Database.Status.ON;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public class Database implements AutoCloseable {
 
     private final Connection conn;

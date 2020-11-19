@@ -19,8 +19,11 @@
 package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
-import com.bew.commons.property.ImmutableIniFileProperty;
+import com.bew.commons.property.IniProperty;
 import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -107,6 +110,18 @@ public class IniDocumentTest {
     public static void init() {
         System.out.println("BeforeAll init() method called");
         INSTANCE = new IniDocument();
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     /**
@@ -502,7 +517,7 @@ public class IniDocumentTest {
                 INSTANCE.setString(inparr[SECTION], inparr[KEY], inparr[VALUE]);
             });
         }
-        List<ImmutableIniFileProperty<Object>> result = INSTANCE.getSection(TEST_SECTION);
+        List<IniProperty<Object>> result = INSTANCE.getSection(TEST_SECTION);
         assertNotNull(result);
         assertTrue(result.size() == TEST_SIZE);
         assertTrue(result.get(TEST_INDEX).key().equals(TEST_KEY)
@@ -606,5 +621,341 @@ public class IniDocumentTest {
     private class MembersState {
 
         String key = null;
+    }
+
+    /**
+     * Test of containsKeyG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testContainsKeyG() {
+    }
+
+    /**
+     * Test of getBoolean method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetBoolean() {
+    }
+
+    /**
+     * Test of getBooleanG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetBooleanG() {
+    }
+
+    /**
+     * Test of getComment method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetComment() {
+    }
+
+    /**
+     * Test of getCommentG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetCommentG() {
+    }
+
+    /**
+     * Test of getDouble method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetDouble() {
+    }
+
+    /**
+     * Test of getDoubleG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetDoubleG() {
+    }
+
+    /**
+     * Test of getFloat method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetFloat() {
+    }
+
+    /**
+     * Test of getFloatG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetFloatG() {
+    }
+
+    /**
+     * Test of getInt method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetInt() {
+    }
+
+    /**
+     * Test of getIntG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetIntG() {
+    }
+
+    /**
+     * Test of getLong method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetLong() {
+    }
+
+    /**
+     * Test of getLongG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetLongG() {
+    }
+
+    /**
+     * Test of getSection method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetSection() {
+    }
+
+    /**
+     * Test of setSection method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetSection_String() {
+    }
+
+    /**
+     * Test of getSectionComment method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetSectionComment() {
+    }
+
+    /**
+     * Test of getSections method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetSections() {
+    }
+
+    /**
+     * Test of getString method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetString() {
+    }
+
+    /**
+     * Test of getStringG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testGetStringG() {
+    }
+
+    /**
+     * Test of removeKey method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testRemoveKey() {
+    }
+
+    /**
+     * Test of removeSection method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testRemoveSection() {
+    }
+
+    /**
+     * Test of setBoolean method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetBoolean_3args() {
+    }
+
+    /**
+     * Test of setBoolean method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetBoolean_4args() {
+    }
+
+    /**
+     * Test of setBooleanG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetBooleanG_String_boolean() {
+    }
+
+    /**
+     * Test of setBooleanG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetBooleanG_3args() {
+    }
+
+    /**
+     * Test of setComment method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetComment() {
+    }
+
+    /**
+     * Test of setCommentG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetCommentG() {
+    }
+
+    /**
+     * Test of setDouble method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetDouble_3args() {
+    }
+
+    /**
+     * Test of setDouble method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetDouble_4args() {
+    }
+
+    /**
+     * Test of setDoubleG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetDoubleG_String_double() {
+    }
+
+    /**
+     * Test of setDoubleG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetDoubleG_3args() {
+    }
+
+    /**
+     * Test of setFloat method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetFloat_3args() {
+    }
+
+    /**
+     * Test of setFloat method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetFloat_4args() {
+    }
+
+    /**
+     * Test of setFloatG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetFloatG_String_float() {
+    }
+
+    /**
+     * Test of setFloatG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetFloatG_3args() {
+    }
+
+    /**
+     * Test of setInt method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetInt_3args() {
+    }
+
+    /**
+     * Test of setInt method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetInt_4args() {
+    }
+
+    /**
+     * Test of setIntG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetIntG_String_int() {
+    }
+
+    /**
+     * Test of setIntG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetIntG_3args() {
+    }
+
+    /**
+     * Test of setLong method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetLong_3args() {
+    }
+
+    /**
+     * Test of setLong method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetLong_4args() {
+    }
+
+    /**
+     * Test of setLongG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetLongG_String_long() {
+    }
+
+    /**
+     * Test of setLongG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetLongG_3args() {
+    }
+
+    /**
+     * Test of setSection method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetSection_String_String() {
+    }
+
+    /**
+     * Test of setString method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetString_3args() {
+    }
+
+    /**
+     * Test of setString method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetString_4args() {
+    }
+
+    /**
+     * Test of setStringG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetStringG_String_String() {
+    }
+
+    /**
+     * Test of setStringG method, of class IniDocument.
+     */
+    @org.junit.Test
+    public void testSetStringG_3args() {
     }
 }

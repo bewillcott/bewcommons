@@ -38,7 +38,10 @@ import static java.util.regex.Pattern.MULTILINE;
  *
  * @since 1.0
  * @version 1.0.5
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public class Regexp {
 
     /**

@@ -28,7 +28,10 @@ import java.util.Objects;
  *
  * @since 1.0.6
  * @version 1.0.7
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public class Strings {
 
     /**

@@ -1,9 +1,10 @@
 <p>To setup in a new project:</p>
 
 <ol>
-<li>Create a new file: "pom.properties" <br />
+<li>Create a new file: "pom.properties" <br>
 Location: "src/main/resources"</li>
-<li><p>Place the following text into that file, and save it:</p>
+<li>Place the following text into that file, and save it:</li>
+</ol>
 
 <pre>
     <code>
@@ -13,20 +14,31 @@ artifactId=${project.artifactId}
 groupId=${project.groupId}
 version=${project.version}
     </code>
-</pre></li>
-<li><p>Add the following to your projects <b>pom.xml</b> file:</p>
+</pre>
+
+<p>3. Add the following to your projects <b>pom.xml</b> file:</p>
 
 <pre>
     <code>
 &lt;build&gt;
 
-
-
-QzHiE89ASjFdMBQrCNOY
-
+    &lt;resources&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;filtering&gt;true&lt;/filtering&gt;
+            &lt;includes&gt;
+                &lt;include&gt;**/pom.properties&lt;/include&gt;
+            &lt;/includes&gt;
+        &lt;/resource&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;filtering&gt;false&lt;/filtering&gt;
+            &lt;excludes&gt;
+                &lt;exclude&gt;**/pom.properties&lt;/exclude&gt;
+            &lt;/excludes&gt;
+        &lt;/resource&gt;
+    &lt;/resources&gt;
 
 &lt;/build&gt;
     </code>
-</pre></li>
-</ol>
-
+</pre>

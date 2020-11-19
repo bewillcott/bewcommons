@@ -30,7 +30,10 @@ package com.bew.commons;
  *
  * @since 1.0
  * @version 1.0.6
+ *
+ * @deprecated Moved out to project: BEWCommon.
  */
+@Deprecated
 public class InvalidProgramStateException extends RuntimeException {
 
     private static final long serialVersionUID = 4857309066668687612L;

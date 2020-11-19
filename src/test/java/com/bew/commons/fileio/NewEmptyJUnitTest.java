@@ -16,12 +16,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package com.bew.commons.fileio;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
- * Domain classes used to produce various implementations of Property class.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
- *
- * @since 1.0.20
- * @version 1.0.21
  */
-package com.bew.commons.property;
+public class NewEmptyJUnitTest {
+
+    public NewEmptyJUnitTest() {
+    }
+
+    @BeforeAll
+    public static void setUpClass() {
+    }
+
+    @AfterAll
+    public static void tearDownClass() {
+    }
+
+    @BeforeEach
+    public void setUp() {
+    }
+
+    @AfterEach
+    public void tearDown() {
+    }
+
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {}
+    @Test
+    public void testIniDocument() {
+        IniDocument inidoc = new IniDocument();
+
+    }
+}

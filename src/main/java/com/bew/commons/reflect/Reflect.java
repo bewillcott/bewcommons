@@ -37,7 +37,10 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 1.0.5
  * @version 1.0.7
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public final class Reflect {
 
     /**

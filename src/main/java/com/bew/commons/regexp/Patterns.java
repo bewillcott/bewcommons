@@ -29,7 +29,10 @@ import static java.util.regex.Pattern.CASE_INSENSITIVE;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public enum Patterns {
 
     /**

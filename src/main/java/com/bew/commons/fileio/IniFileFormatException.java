@@ -26,7 +26,10 @@ package com.bew.commons.fileio;
  *
  * @since 1.0
  * @version 1.0.5
+ *
+ * @deprecated Moved out to project: BEWFiles.
  */
+@Deprecated
 public class IniFileFormatException extends Exception {
 
     private static final long serialVersionUID = -1526284495445937980L;

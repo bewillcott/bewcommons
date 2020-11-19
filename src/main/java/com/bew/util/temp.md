@@ -11,28 +11,26 @@ artifactId=${project.artifactId}
 groupId=${project.groupId}
 version=${project.version}
 ```
-
 3. Add the following to your projects __pom.xml__ file:
 ```
-    <build>
+<build>
 
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/pom.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/pom.properties</exclude>
-                </excludes>
-            </resource>
-        </resources>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>**/pom.properties</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+            <excludes>
+                <exclude>**/pom.properties</exclude>
+            </excludes>
+        </resource>
+    </resources>
 
-    </build>
+</build>
 ```
-

@@ -26,7 +26,10 @@ import java.net.URL;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
+@Deprecated
 public interface PackageInterface {
 
     /**

@@ -45,7 +45,10 @@ import static java.nio.file.Path.of;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWFiles.
  */
+@Deprecated
 public class BEWFiles {
 
     // Define a static logger variable so that it references the

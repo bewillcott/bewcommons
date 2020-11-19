@@ -31,19 +31,19 @@
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
- * @version 1.0.20
+ * @version 1.0.21
  */
 module BEWCommons {
-    requires java.desktop;
-    requires org.apache.logging.log4j;
+    requires transitive java.desktop;
     requires transitive java.sql;
+    requires transitive org.apache.logging.log4j;
 
     exports com.bew.commons;
     exports com.bew.commons.fileio;
     exports com.bew.commons.graphics;
+    exports com.bew.commons.property;
     exports com.bew.commons.reflect;
     exports com.bew.commons.regexp;
     exports com.bew.commons.sqlite;
     exports com.bew.commons.string;
-    exports com.bew.commons.property;
 }

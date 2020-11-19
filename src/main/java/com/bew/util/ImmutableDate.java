@@ -5,6 +5,7 @@
  */
 package com.bew.util;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
@@ -17,8 +18,11 @@ import java.util.Objects;
  *
  * @since 1.0
  * @version 1.0
+ *
+ * @deprecated Moved out to project: BEWUtils.
  */
-public class ImmutableDate implements java.io.Serializable, Cloneable, Comparable<ImmutableDate> {
+@Deprecated
+public class ImmutableDate implements Serializable, Cloneable, Comparable<ImmutableDate> {
 
     private static final long serialVersionUID = -5343636338811996888L;
 

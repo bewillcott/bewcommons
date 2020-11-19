@@ -19,9 +19,8 @@
 package com.bew.commons.fileio;
 
 import com.bew.commons.InvalidParameterValueException;
-import com.bew.commons.property.ImmutableIniFileProperty;
-import com.bew.commons.property.IniFileProperty;
-import com.bew.commons.property.PropertyFactory;
+import com.bew.commons.property.IniProperty;
+import com.bew.commons.property.MutableIniProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +50,10 @@ import java.util.regex.Pattern;
  *
  * @since 1.0
  * @version 1.0.20
+ *
+ * @deprecated Moved out to project: BEWFiles.
  */
+@Deprecated
 public class IniDocument {
 
     /**
@@ -120,11 +122,11 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    final ArrayList<IniFileProperty<ArrayList<IniFileProperty<Object>>>> entries;
+    final ArrayList<MutableIniProperty<ArrayList<MutableIniProperty<Object>>>> entries;
 
     IniDocument() {
         entries = new ArrayList<>();
-        entries.add(PropertyFactory.create(null, new ArrayList<>()));
+        entries.add(new MutableIniProperty<>(null, new ArrayList<>()));
     }
 
     /**
@@ -143,7 +145,7 @@ public class IniDocument {
 
         if (sectionIdx > -1)
         {
-            ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+            ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
             return (indexOfKey(kvlist, key) > -1);
         } else
         {
@@ -233,7 +235,7 @@ public class IniDocument {
 
         if (sectionIdx > -1)
         {
-            ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+            ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
             int keyIdx = indexOfKey(kvlist, key);
             return keyIdx > -1 ? kvlist.get(keyIdx).comment() : null;
         } else
@@ -392,6 +394,7 @@ public class IniDocument {
      * <dt>v1.0.6</dt>
      * <dd>Return changed from {@link ArrayList ArrayList&lt;&gt;} to {@link List List&lt;&gt;}</dd>
      * </dl>
+     * XXX
      *
      * @param section Name of the section.
      *
@@ -399,14 +402,14 @@ public class IniDocument {
      *
      * @since 1.0
      */
-    public List<ImmutableIniFileProperty<Object>> getSection(String section) {
+    public List<IniProperty<Object>> getSection(String section) {
         int sectionIdx = indexOfSection(section);
 
         if (sectionIdx > -1)
         {
-            ArrayList<ImmutableIniFileProperty<Object>> rtnList = new ArrayList<>();
+            ArrayList<IniProperty<Object>> rtnList = new ArrayList<>();
             entries.get(sectionIdx).value().forEach(prop
-                    -> rtnList.add((ImmutableIniFileProperty<Object>) prop));
+                    -> rtnList.add((IniProperty<Object>) prop));
 
             return rtnList;
         } else
@@ -506,7 +509,7 @@ public class IniDocument {
 
         if (sectionIdx > -1)
         {
-            ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+            ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
             int idx = indexOfKey(kvlist, key);
 
             if (idx > -1)
@@ -645,20 +648,20 @@ public class IniDocument {
         if (sectionIdx
             == -1)
         {
-            entries.add(PropertyFactory.create(section, new ArrayList<>()));
+            entries.add(new MutableIniProperty<>(section, new ArrayList<>()));
             sectionIdx = indexOfSection(section);
         }
 
-        ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+        ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
         int keyIdx = indexOfKey(kvlist, key);
 
         if (keyIdx == -1)
         {
-            kvlist.add(PropertyFactory.create(key, null, comment));
+            kvlist.add(new MutableIniProperty<>(key, null, comment));
             return null;
         } else
         {
-            IniFileProperty<Object> kv = kvlist.get(keyIdx);
+            MutableIniProperty<Object> kv = kvlist.get(keyIdx);
             String rtn = kv.comment();
             kv.comment(comment);
             return rtn;
@@ -1044,7 +1047,7 @@ public class IniDocument {
 
         if (sectionIdx == -1)
         {
-            entries.add(PropertyFactory.create(section, new ArrayList<>(), comment));
+            entries.add(new MutableIniProperty<>(section, new ArrayList<>(), comment));
             sectionIdx = indexOfSection(section);
         }
 
@@ -1114,21 +1117,21 @@ public class IniDocument {
         if (sectionIdx
             == -1)
         {
-            entries.add(PropertyFactory.create(section, new ArrayList<>()));
+            entries.add(new MutableIniProperty<>(section, new ArrayList<>()));
             sectionIdx = indexOfSection(section);
         }
 
-        ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+        ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
         int keyIdx = indexOfKey(kvlist, key);
 
         if (keyIdx
             == -1)
         {
-            kvlist.add(PropertyFactory.create(key, value, comment));
+            kvlist.add(new MutableIniProperty<>(key, value, comment));
             return null;
         } else
         {
-            IniFileProperty<Object> kv = kvlist.get(keyIdx);
+            MutableIniProperty<Object> kv = kvlist.get(keyIdx);
             String rtn = (String) kv.value();
             kv.value(value);
             kv.comment(comment);
@@ -1209,7 +1212,7 @@ public class IniDocument {
 
         if (sectionIdx > -1)
         {
-            ArrayList<IniFileProperty<Object>> kvlist = entries.get(sectionIdx).value();
+            ArrayList<MutableIniProperty<Object>> kvlist = entries.get(sectionIdx).value();
             int keyIdx = indexOfKey(kvlist, key);
 
             return keyIdx > -1 ? (String) kvlist.get(keyIdx).value() : null;
@@ -1221,7 +1224,7 @@ public class IniDocument {
     /**
      * Refer to {@link #indexOfSection(java.lang.String)
      */
-    private int indexOfKey(ArrayList<IniFileProperty<Object>> kvlist, String key) {
+    private int indexOfKey(ArrayList<MutableIniProperty<Object>> kvlist, String key) {
         for (int i = 0; i < kvlist.size(); i++)
         {
             String lkey = kvlist.get(i).key();
@@ -1239,11 +1242,11 @@ public class IniDocument {
      * This method replaces the method: {@link ArrayList#indexOf(java.lang.Object) }.
      * <p>
      * The reason being, {@code indexOf} puts the parameter on the left side of the
-     * {@code equals()} call. I have developed the {@link IniFileProperty} class to test
+     * {@code equals()} call. I have developed the {@link MutableIniProperty} class to test
      * equality against a String:
      * <pre><code>
      *
-     *    IniFileProperty&lt;ArrayList&lt;String&gt;&gt; mp = new IniFileProperty&lt;&gt;();
+     *    MutableIniProperty&lt;ArrayList&lt;String&gt;&gt; mp = new MutableIniProperty&lt;&gt;();
      *
      *    ...
      *
