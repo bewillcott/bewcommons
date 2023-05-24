@@ -6,3 +6,6 @@ This work is closed.  All the classes have been moved to smaller more specialize
 libraries.  Check the class comments to find which one went where.
 
 Bradley Willcott (20/11/2020).
+
+Check out <https://github.com/bewillcott/bewsoftware-libs> for the replacement
+development.
